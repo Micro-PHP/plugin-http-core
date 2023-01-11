@@ -60,8 +60,4 @@ class RouteMatcherTest extends TestCase
             ],
         ];
     }
-
-    protected function createMatchers(array $matchersResults): iterable
-    {
-    }
 }
