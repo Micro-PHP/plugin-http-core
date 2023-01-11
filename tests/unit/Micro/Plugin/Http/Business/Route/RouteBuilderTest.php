@@ -25,13 +25,17 @@ class RouteBuilderTest extends TestCase
     /**
      * @dataProvider dataProvider
      *
+     * @param string|null $routeName
      * @param callable|null $action
      * @param string|null $uri
+     * @param string|null $pattern
      * @param array|null $methods
+     * @param string|null $allowedException
      *
      * @return void
      */
     public function testBuild(
+        string|null $routeName,
         callable|null $action,
         string|null $uri,
         string|null $pattern,
@@ -40,6 +44,10 @@ class RouteBuilderTest extends TestCase
     )
     {
         $builder = new RouteBuilder();
+
+        if($routeName) {
+            $builder->setName($routeName);
+        }
 
         if($action) {
             $builder->setAction($action);
@@ -67,17 +75,18 @@ class RouteBuilderTest extends TestCase
         $this->assertEquals($uri, $route->getUri());
         $this->assertEquals($methods ?: self::METHOD_DEFAULTS, $route->getMethods());
         $this->assertEquals($pattern, $route->getPattern());
+        $this->assertEquals($routeName ?: $uri, $route->getName());
 
     }
 
     public function dataProvider()
     {
         return [
-            [ function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null ],
-            [ function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null,],
-            [ null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
-            [ function() {}, '/test', null, null, null,],
-            [ function() {}, null, null, null, RouteInvalidConfigurationException::class ],
+            [ 'test', function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null ],
+            [ null, function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null,],
+            [ 'test', null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
+            [ 'test', function() {}, '/test', null, null, null,],
+            [ 'test', function() {}, null, null, null, RouteInvalidConfigurationException::class ],
         ];
     }
 }
