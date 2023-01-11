@@ -21,6 +21,7 @@
         "ergebnis/composer-normalize": "^2.29",
         "friendsofphp/php-cs-fixer": "^3.13",
         "phpstan/phpstan": "^1.9",
+        "phpunit/php-code-coverage": "^9.2",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^5.2"
     },
@@ -41,7 +42,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text",
+        "coverage": "./vendor/bin/phpunit --coverage-text",
         "php-cs-fix": "./vendor/bin/php-cs-fixer fix --verbose --using-cache=no",
         "php-cs-try": "./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no",
         "phpstan": "./vendor/bin/phpstan analyze --no-progress",
