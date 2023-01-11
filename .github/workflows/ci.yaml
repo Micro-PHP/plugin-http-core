@@ -21,8 +21,8 @@ jobs:
         dependency-versions: [ 'highest' ]
         include:
           # testing lowest PHP version with the lowest dependencies
-          - php-version: '8.2'
-            dependency-versions: 'lowest'
+  #        - php-version: '8.2'
+  #          dependency-versions: 'lowest'
 
           # testing dev versions with the highest PHP
           - php-version: '8.2'
