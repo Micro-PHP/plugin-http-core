@@ -4,6 +4,9 @@ on:
     branches: [ 'master' ]
   pull_request:
 
+env:
+  PHP_CS_FIXER_IGNORE_ENV: 1
+
 jobs:
   tests:
     name: "Tests ${{ matrix.php-version }} deps ${{ matrix.dependency-versions }}"
