@@ -21,4 +21,6 @@ interface HttpCorePluginConfigurationInterface
     public function getAccessLoggerName(): string;
 
     public function getErrorLoggerName(): string;
+
+    public function getRouteLocatorType(): string;
 }

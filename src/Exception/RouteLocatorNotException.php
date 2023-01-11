@@ -11,15 +11,11 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher\Route;
-
-use Micro\Plugin\Http\Business\Route\RouteInterface;
-use Symfony\Component\HttpFoundation\Request;
+namespace Micro\Plugin\Http\Exception;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteMatcherInterface
+class RouteLocatorNotException
 {
-    public function match(RouteInterface $route, Request $request): bool;
 }

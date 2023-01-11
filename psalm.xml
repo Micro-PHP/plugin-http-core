@@ -11,5 +11,28 @@
         <ignoreFiles>
             <directory name="vendor" />
         </ignoreFiles>
+
     </projectFiles>
+
+    <issueHandlers>
+
+        <UnnecessaryVarAnnotation>
+            <errorLevel type="suppress">
+                <file name="src/HttpCorePlugin.php"/>
+            </errorLevel>
+        </UnnecessaryVarAnnotation>
+
+        <MissingConstructor>
+            <errorLevel type="suppress">
+                <file name="src/HttpCorePlugin.php"/>
+            </errorLevel>
+        </MissingConstructor>
+
+        <ImplementedReturnTypeMismatch>
+            <errorLevel type="suppress">
+                <file name="src/HttpCorePlugin.php"/>
+            </errorLevel>
+        </ImplementedReturnTypeMismatch>
+    </issueHandlers>
+
 </psalm>

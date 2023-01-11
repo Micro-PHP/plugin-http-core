@@ -11,15 +11,16 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher\Route;
+namespace Micro\Plugin\Http\Plugin;
 
-use Micro\Plugin\Http\Business\Route\RouteInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteMatcherInterface
+interface HttpRouteLocatorPluginInterface
 {
-    public function match(RouteInterface $route, Request $request): bool;
+    public function getLocatorName(): string;
+
+    public function createLocator(): RouteLocatorInterface;
 }

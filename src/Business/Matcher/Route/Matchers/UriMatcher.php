@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Micro\Plugin\Http\Business\Matcher\Route\Matchers;
@@ -29,18 +29,28 @@ class UriMatcher implements RouteMatcherInterface
     {
         $uri = $request->getRequestUri();
         $pattern = $route->getPattern();
-        if(!$pattern) {
+        if (!$pattern) {
             return $uri === $route->getUri();
         }
 
         $matched = preg_match_all($pattern, $request->getUri(), $matches);
 
-        if($matched === 0) {
+        if (0 === $matched) {
             return false;
         }
 
         $i = 0;
-        foreach ($route->getParameters() as $parameter) {
+
+        $parameters = $route->getParameters();
+        if (!$parameters) {
+            return true;
+        }
+
+        foreach ($parameters as $parameter) {
+            if (!$parameter) {
+                continue;
+            }
+
             $request->request->set($parameter, $matches[++$i][0]);
         }
 

@@ -2,20 +2,19 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Micro\Plugin\Http\Business\Route;
 
 use Micro\Plugin\Http\Exception\RouteAlreadyDeclaredException;
 use Micro\Plugin\Http\Exception\RouteNotFoundException;
-use Micro\Plugin\Http\Business\Route\RouteInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -23,7 +22,7 @@ use Micro\Plugin\Http\Business\Route\RouteInterface;
 interface RouteCollectionInterface
 {
     /**
-     * @param iterable $routes
+     * @param iterable<RouteInterface> $routes
      *
      * @return $this
      *
@@ -32,8 +31,6 @@ interface RouteCollectionInterface
     public function setRoutes(iterable $routes): self;
 
     /**
-     * @param RouteInterface $route
-     *
      * @return $this
      *
      * @throws RouteAlreadyDeclaredException
@@ -41,10 +38,6 @@ interface RouteCollectionInterface
     public function addRoute(RouteInterface $route): self;
 
     /**
-     * @param string $name
-     *
-     * @return RouteInterface
-     *
      * @throws RouteNotFoundException
      */
     public function getRouteByName(string $name): RouteInterface;

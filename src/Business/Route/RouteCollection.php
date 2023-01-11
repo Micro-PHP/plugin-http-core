@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Micro\Plugin\Http\Business\Route;
@@ -41,6 +41,10 @@ class RouteCollection implements RouteCollectionInterface
      */
     public function __construct(array $routes = [])
     {
+        $this->routes = [];
+        $this->routesNamesDynamic = [];
+        $this->routesNamesStatic = [];
+
         $this->setRoutes($routes);
     }
 
@@ -67,16 +71,16 @@ class RouteCollection implements RouteCollectionInterface
     {
         $routeName = $route->getName();
 
-        if(array_key_exists($routeName, $this->routes)) {
+        if (\array_key_exists($routeName, $this->routes)) {
             throw new RouteAlreadyDeclaredException($routeName);
         }
 
         $this->routes[$routeName] = $route;
 
-        if($route->getPattern()) {
-           $this->routesNamesDynamic[] = $routeName;
+        if ($route->getPattern()) {
+            $this->routesNamesDynamic[] = $routeName;
 
-           return $this;
+            return $this;
         }
 
         $this->routesNamesStatic[] = $routeName;
@@ -89,7 +93,7 @@ class RouteCollection implements RouteCollectionInterface
      */
     public function getRouteByName(string $name): RouteInterface
     {
-        if(!array_key_exists($name, $this->routes)) {
+        if (!\array_key_exists($name, $this->routes)) {
             RouteNotFoundException::throwsRouteNotFoundByName($name);
         }
 

@@ -13,29 +13,30 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Business\Route;
 
-use Micro\Plugin\Http\Business\Route\RouteInterface;
-
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
 readonly class Route implements RouteInterface
 {
     /**
-     * @param string $uri
-     * @param string|\Closure $action
-     * @param string[] $methods
-     * @param string $name
-     * @param string|null $pattern
+     * @var callable
+     */
+    private mixed $action;
+
+    /**
+     * @param string[]      $methods
+     * @param string|null   $pattern
      * @param string[]|null $parameters
      */
     public function __construct(
-        private string          $uri,
-        private string|\Closure $action,
-        private array           $methods,
-        private string          $name,
-        private string|null     $pattern = null,
-        private array|null      $parameters = null
+        private string $uri,
+        callable $action,
+        private array $methods,
+        private string $name,
+        private string|null $pattern = null,
+        private array|null $parameters = null
     ) {
+        $this->action = $action;
     }
 
     /**

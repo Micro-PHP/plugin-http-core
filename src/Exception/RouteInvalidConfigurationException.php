@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
 
 namespace Micro\Plugin\Http\Exception;
@@ -18,13 +18,19 @@ namespace Micro\Plugin\Http\Exception;
  */
 class RouteInvalidConfigurationException extends RouteConfigurationException
 {
+    /**
+     * @var string[]
+     */
     private array $messages;
 
+    /**
+     * @param string[] $messages
+     */
     public function __construct(string $routeName, array $messages, int $code = 0, ?\Throwable $previous = null)
     {
         $message = sprintf('Invalid route "%s" configuration.', $routeName);
-        $this->messages = $messages;
 
+        $this->messages = $messages;
         parent::__construct(
             $message,
             $code,
@@ -33,7 +39,7 @@ class RouteInvalidConfigurationException extends RouteConfigurationException
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getMessages(): array
     {
