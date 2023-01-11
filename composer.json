@@ -1,0 +1,62 @@
+{
+    "name": "micro/http-core",
+    "description": "Micro Framework: Lightweight HTTP router",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Stanislau Komar",
+            "email": "kost@micro-php.net"
+        }
+    ],
+    "require": {
+        "micro/kernel": "^1",
+        "micro/kernel-boot-configuration": "^1",
+        "micro/kernel-boot-dependency": "^1",
+        "micro/kernel-boot-plugin-depended": "^1",
+        "micro/plugin-logger-core": "^1",
+        "symfony/http-foundation": "^6.2"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.29",
+        "friendsofphp/php-cs-fixer": "^3.13",
+        "phpstan/phpstan": "^1.9",
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Micro\\Plugin\\Http\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OleksiiBulba\\WebpackEncorePlugin\\Tests\\Unit\\": "tests/unit"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text",
+        "php-cs-fix": "./vendor/bin/php-cs-fixer fix --verbose --using-cache=no",
+        "php-cs-try": "./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no",
+        "phpstan": "./vendor/bin/phpstan analyze --no-progress",
+        "phpunit": "./vendor/bin/phpunit",
+        "psalm": "./vendor/bin/psalm --no-progress --show-info=true",
+        "statics": [
+            "@phpstan",
+            "@php-cs-try",
+            "@psalm"
+        ],
+        "test": [
+            "@statics",
+            "composer validate --strict",
+            "composer normalize",
+            "@coverage"
+        ]
+    }
+}
