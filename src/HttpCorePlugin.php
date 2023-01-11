@@ -13,11 +13,15 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http;
 
+use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactory;
+use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactoryInterface;
 use Micro\Component\DependencyInjection\Container;
 use Micro\Framework\Kernel\KernelInterface;
 use Micro\Framework\Kernel\Plugin\ConfigurableInterface;
 use Micro\Framework\Kernel\Plugin\DependencyProviderInterface;
 use Micro\Framework\Kernel\Plugin\PluginConfigurationTrait;
+use Micro\Plugin\Http\Business\Executor\RouteExecutorFactory;
+use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactory;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
@@ -39,13 +43,23 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
 {
     use PluginConfigurationTrait;
 
+    /**
+     * @var KernelInterface
+     */
     private KernelInterface $kernel;
+
+    /**
+     * @var Container
+     */
+    private Container $container;
 
     /**
      * {@inheritDoc}
      */
     public function provideDependencies(Container $container): void
     {
+        $this->container = $container;
+
         $container->register(HttpFacadeInterface::class, function (
             KernelInterface $kernel
         ) {
@@ -55,6 +69,9 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
         });
     }
 
+    /**
+     * @return HttpFacadeInterface
+     */
     protected function createFacade(): HttpFacadeInterface
     {
         $routeCollectionFactory = $this->createRouteCollectionFactory();
@@ -67,15 +84,25 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
 
         return new HttpFacade(
             $urlMatcherFactory,
-            $routeCollectionFactory
+            $routeCollectionFactory,
+            $this->createRouteExecutorFactory($urlMatcherFactory)
         );
     }
 
+    /**
+     * @return RouteMatcherFactoryInterface
+     */
     protected function createRouteMatcherFactory(): RouteMatcherFactoryInterface
     {
         return new RouteMatcherFactory();
     }
 
+    /**
+     * @param RouteCollectionFactoryInterface $routeCollectionFactory
+     * @param RouteMatcherFactoryInterface $routeMatcherFactory
+     *
+     * @return UrlMatcherFactoryInterface
+     */
     protected function createUrlMatcherFactory(
         RouteCollectionFactoryInterface $routeCollectionFactory,
         RouteMatcherFactoryInterface $routeMatcherFactory
@@ -96,11 +123,38 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
         );
     }
 
+    /**
+     * @return RouteLocatorFactoryInterface
+     */
     protected function createRouteLocatorFactory(): RouteLocatorFactoryInterface
     {
         return new RouteLocatorFactory(
             $this->kernel,
             $this->configuration()
+        );
+    }
+
+    /**
+     * @return AutowireHelperFactoryInterface
+     */
+    protected function createAutowireHelperFactory(): AutowireHelperFactoryInterface
+    {
+        return new AutowireHelperFactory($this->container);
+    }
+
+    /**
+     * @param UrlMatcherFactoryInterface $urlMatcherFactory
+     *
+     * @return RouteExecutorFactoryInterface
+     */
+    protected function createRouteExecutorFactory(
+        UrlMatcherFactoryInterface $urlMatcherFactory,
+    ): RouteExecutorFactoryInterface
+    {
+        return new RouteExecutorFactory(
+            $urlMatcherFactory,
+            $this->container,
+            $this->createAutowireHelperFactory(),
         );
     }
 }

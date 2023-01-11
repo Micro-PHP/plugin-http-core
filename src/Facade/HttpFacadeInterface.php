@@ -13,12 +13,13 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Facade;
 
+use Micro\Plugin\Http\Business\Executor\RouteExecutorInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface HttpFacadeInterface extends UrlMatcherInterface
+interface HttpFacadeInterface extends UrlMatcherInterface, RouteExecutorInterface
 {
     /**
      * @return string[]
