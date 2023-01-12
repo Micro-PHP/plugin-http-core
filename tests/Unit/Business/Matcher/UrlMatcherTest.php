@@ -9,10 +9,11 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher;
+namespace Micro\Plugin\Http\Test\Unit\Business\Matcher;
 
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherInterface;
+use Micro\Plugin\Http\Business\Matcher\UrlMatcher;
 use Micro\Plugin\Http\Business\Route\Route;
 use Micro\Plugin\Http\Business\Route\RouteCollectionInterface;
 use Micro\Plugin\Http\Exception\HttpNotFoundException;

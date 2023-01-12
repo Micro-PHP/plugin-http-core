@@ -11,12 +11,17 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Configuration;
+namespace Unit\Business\Response;
+
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface HttpCorePluginConfigurationInterface
+class CallbackTest
 {
-    public function getRouteLocatorType(): string;
+    public function helloWithResponse(): Response
+    {
+        return new Response();
+    }
 }

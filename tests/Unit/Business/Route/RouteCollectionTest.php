@@ -9,8 +9,11 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Route;
 
+use Micro\Plugin\Http\Business\Route\RouteCollection;
+use Micro\Plugin\Http\Business\Route\RouteCollectionInterface;
+use Micro\Plugin\Http\Business\Route\RouteInterface;
 use Micro\Plugin\Http\Exception\RouteAlreadyDeclaredException;
 use Micro\Plugin\Http\Exception\RouteNotFoundException;
 use PHPUnit\Framework\TestCase;
@@ -40,7 +43,7 @@ class RouteCollectionTest extends TestCase
             $tmpRoute->expects($this->any())->method('getName')->willReturn($routeData[0]);
             $tmpRoute->expects($this->any())->method('getUri')->willReturn('/test');
             $tmpRoute->expects($this->any())->method('getMethods')->willReturn([]);
-            $tmpRoute->expects($this->any())->method('getAction')->willReturn(function () {});
+            $tmpRoute->expects($this->any())->method('getController')->willReturn(function () {});
             $tmpRoute->expects($this->any())->method('getParameters')->willReturn([]);
 
             $routes[] = $tmpRoute;

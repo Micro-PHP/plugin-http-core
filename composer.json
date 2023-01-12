@@ -2,7 +2,7 @@
     "name": "micro/http-core",
     "description": "Micro Framework: Lightweight HTTP router",
     "license": "MIT",
-    "type": "library",
+    "type": "micro-plugin",
     "authors": [
         {
             "name": "Stanislau Komar",
@@ -10,11 +10,13 @@
         }
     ],
     "require": {
+        "micro/autowire": "^1",
         "micro/kernel": "^1",
+        "micro/kernel-app": "^1",
         "micro/kernel-boot-configuration": "^1",
         "micro/kernel-boot-dependency": "^1",
         "micro/kernel-boot-plugin-depended": "^1",
-        "micro/plugin-logger-core": "^1",
+        "micro/plugin-locator": "^1",
         "symfony/http-foundation": "^6.2"
     },
     "require-dev": {
@@ -32,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "OleksiiBulba\\WebpackEncorePlugin\\Tests\\Unit\\": "tests/unit"
+            "Micro\\Plugin\\Http\\Tests\\": "tests/"
         }
     },
     "config": {
@@ -42,7 +44,7 @@
         "sort-packages": true
     },
     "scripts": {
-        "coverage": "./vendor/bin/phpunit --coverage-text",
+        "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-text",
         "php-cs-fix": "./vendor/bin/php-cs-fixer fix --verbose --using-cache=no",
         "php-cs-try": "./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no",
         "phpstan": "./vendor/bin/phpstan analyze --no-progress",

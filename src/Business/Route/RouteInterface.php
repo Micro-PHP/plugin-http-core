@@ -22,14 +22,17 @@ interface RouteInterface
 
     public function getPattern(): string|null;
 
-    public function getAction(): callable;
+    /**
+     * @return array<class-string, string|null>|class-string|\Closure|object
+     */
+    public function getController(): callable|string|array|object;
 
     /**
      * @return string[]
      */
     public function getMethods(): array;
 
-    public function getName(): string;
+    public function getName(): string|null;
 
     /**
      * @return string[]|null

@@ -9,8 +9,9 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Route;
 
+use Micro\Plugin\Http\Business\Route\RouteBuilder;
 use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
 use PHPUnit\Framework\TestCase;
 
@@ -40,7 +41,7 @@ class RouteBuilderTest extends TestCase
         }
 
         if ($action) {
-            $builder->setAction($action);
+            $builder->setController($action);
         }
 
         if ($uri) {
@@ -61,11 +62,11 @@ class RouteBuilderTest extends TestCase
             return;
         }
 
-        $this->assertIsCallable($route->getAction());
+        $this->assertIsCallable($route->getController());
         $this->assertEquals($uri, $route->getUri());
         $this->assertEquals($methods ?: self::METHOD_DEFAULTS, $route->getMethods());
         $this->assertEquals($pattern, $route->getPattern());
-        $this->assertEquals($routeName ?: $uri, $route->getName());
+        $this->assertEquals($routeName, $route->getName());
     }
 
     public function dataProvider()

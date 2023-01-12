@@ -9,11 +9,12 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Locator;
+namespace Micro\Plugin\Http\Test\Unit\Business\Locator;
 
-use Micro\Framework\Kernel\Configuration\ApplicationConfigurationInterface;
 use Micro\Framework\Kernel\KernelInterface;
-use Micro\Plugin\Http\HttpCorePluginConfiguration;
+use Micro\Plugin\Http\Business\Locator\RouteLocatorFactory;
+use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
+use Micro\Plugin\Http\Configuration\HttpCorePluginConfigurationInterface;
 use Micro\Plugin\Http\Plugin\HttpRouteLocatorPluginInterface;
 use PHPUnit\Framework\TestCase;
 
@@ -40,11 +41,15 @@ class RouteLocatorFactoryTest extends TestCase
         $this->assertInstanceOf(RouteLocatorInterface::class, $routeLocator);
     }
 
-    protected function createConfiguration(): HttpCorePluginConfiguration
+    protected function createConfiguration(): HttpCorePluginConfigurationInterface
     {
-        $stub = $this->createMock(ApplicationConfigurationInterface::class);
+        $stub = $this->createMock(HttpCorePluginConfigurationInterface::class);
+        $stub
+            ->expects($this->once())
+            ->method('getRouteLocatorType')
+            ->willReturn('code');
 
-        return new HttpCorePluginConfiguration($stub);
+        return $stub;
     }
 
     protected function createKernel(string $locatorAlias, bool $isLocatorNotFound): KernelInterface

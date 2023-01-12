@@ -9,11 +9,13 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Executor;
+namespace Micro\Plugin\Http\Test\Unit\Business\Executor;
 
-use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactoryInterface;
 use Micro\Component\DependencyInjection\ContainerRegistryInterface;
+use Micro\Plugin\Http\Business\Executor\RouteExecutorFactory;
+use Micro\Plugin\Http\Business\Executor\RouteExecutorInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
+use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
 use PHPUnit\Framework\TestCase;
 
 class RouteExecutorFactoryTest extends TestCase
@@ -23,7 +25,7 @@ class RouteExecutorFactoryTest extends TestCase
         $routeExecutorFactory = new RouteExecutorFactory(
             $this->createMock(UrlMatcherFactoryInterface::class),
             $this->createMock(ContainerRegistryInterface::class),
-            $this->createMock(AutowireHelperFactoryInterface::class),
+            $this->createMock(ResponseCallbackFactoryInterface::class),
         );
 
         $this->assertInstanceOf(

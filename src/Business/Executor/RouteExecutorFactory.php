@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Business\Executor;
 
-use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactoryInterface;
 use Micro\Component\DependencyInjection\ContainerRegistryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
+use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -25,7 +25,7 @@ readonly class RouteExecutorFactory implements RouteExecutorFactoryInterface
     public function __construct(
         private UrlMatcherFactoryInterface $urlMatcherFactory,
         private ContainerRegistryInterface $containerRegistry,
-        private AutowireHelperFactoryInterface $autowireHelperFactory
+        private ResponseCallbackFactoryInterface $responseCallbackFactory
     ) {
     }
 
@@ -37,7 +37,7 @@ readonly class RouteExecutorFactory implements RouteExecutorFactoryInterface
         return new RouteExecutor(
             $this->urlMatcherFactory->create(),
             $this->containerRegistry,
-            $this->autowireHelperFactory->create(),
+            $this->responseCallbackFactory
         );
     }
 }

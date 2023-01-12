@@ -28,6 +28,8 @@ use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactory;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
+use Micro\Plugin\Http\Business\Response\ResponseCallbackFactory;
+use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactory;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteCollectionFactory;
@@ -121,6 +123,13 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
         );
     }
 
+    protected function createResponseCallbackFactory(): ResponseCallbackFactoryInterface
+    {
+        return new ResponseCallbackFactory(
+            $this->createAutowireHelperFactory()
+        );
+    }
+
     protected function createAutowireHelperFactory(): AutowireHelperFactoryInterface
     {
         return new AutowireHelperFactory($this->container);
@@ -132,7 +141,7 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
         return new RouteExecutorFactory(
             $urlMatcherFactory,
             $this->container,
-            $this->createAutowireHelperFactory(),
+            $this->createResponseCallbackFactory(),
         );
     }
 }

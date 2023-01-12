@@ -19,24 +19,20 @@ namespace Micro\Plugin\Http\Business\Route;
 readonly class Route implements RouteInterface
 {
     /**
-     * @var callable
-     */
-    private mixed $action;
-
-    /**
-     * @param string[]      $methods
-     * @param string|null   $pattern
-     * @param string[]|null $parameters
+     * @param array<class-string, string|null>|class-string|\Closure|object $controller
+     * @param string|null                                                   $pattern
+     * @param array|null                                                    $parameters
+     *
+     * @phpstan-ignore-next-line
      */
     public function __construct(
         private string $uri,
-        callable $action,
+        private string|array|object $controller,
         private array $methods,
-        private string $name,
+        private string|null $name,
         private string|null $pattern = null,
         private array|null $parameters = null
     ) {
-        $this->action = $action;
     }
 
     /**
@@ -50,9 +46,9 @@ readonly class Route implements RouteInterface
     /**
      * {@inheritDoc}
      */
-    public function getAction(): callable
+    public function getController(): callable|string|array|object
     {
-        return $this->action;
+        return $this->controller;
     }
 
     /**
@@ -66,7 +62,7 @@ readonly class Route implements RouteInterface
     /**
      * {@inheritDoc}
      */
-    public function getName(): string
+    public function getName(): string|null
     {
         return $this->name;
     }

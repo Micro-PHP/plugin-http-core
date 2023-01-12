@@ -9,8 +9,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Route;
 
+use Micro\Plugin\Http\Business\Route\RouteBuilderFactory;
+use Micro\Plugin\Http\Business\Route\RouteBuilderInterface;
 use PHPUnit\Framework\TestCase;
 
 class RouteBuilderFactoryTest extends TestCase

@@ -9,8 +9,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Matcher\Route;
 
+use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcher;
+use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;

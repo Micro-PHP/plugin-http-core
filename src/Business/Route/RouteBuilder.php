@@ -23,7 +23,7 @@ class RouteBuilder implements RouteBuilderInterface
     private string|null $name;
 
     /**
-     * @var callable|null
+     * @var array<class-string, string|null>|class-string|\Closure|null
      */
     private mixed $action;
 
@@ -87,7 +87,7 @@ class RouteBuilder implements RouteBuilderInterface
     /**
      * {@inheritDoc}
      */
-    public function setAction(callable $action): self
+    public function setController(string|array|\Closure $action): self
     {
         $this->action = $action;
 
@@ -112,18 +112,29 @@ class RouteBuilder implements RouteBuilderInterface
     public function build(): RouteInterface
     {
         $exceptions = [];
-        $routeName = $this->name ?: $this->uri ?: 'Unnamed_'.rand();
 
         if (!$this->uri) {
+            $this->uri = '';
+
             $exceptions[] = 'Path can not be empty';
+        }
+
+        if ($this->name && !preg_match('/^(.[aA-zZ_])/', $this->name)) {
+            $exceptions[] = 'The route name must match "aA-zZ0-9_".';
         }
 
         if (!$this->action) {
             $exceptions[] = 'The route action can not be empty and should be callable.';
         }
 
-        if ($this->action && !\is_callable($this->action)) {
-            $exceptions[] = 'The route action should be callable. Current value: '.$this->action;
+        if (
+            $this->action &&
+            (
+                !\is_callable($this->action) &&
+                (\is_string($this->action) && (class_exists($this->action) && !$this->name))
+            )
+        ) {
+            $exceptions[] = 'The route action should be callable. Examples: `[object, "method|<route_name>"], [Classname, "metnod|<routeName>"], Classname::method, Classname, function() {}` Current value: '.$this->action;
         }
 
         if (!\count($this->methods)) {
@@ -131,7 +142,11 @@ class RouteBuilder implements RouteBuilderInterface
         }
 
         if (\count($exceptions)) {
-            throw new RouteInvalidConfigurationException($routeName, $exceptions);
+            $exception = new RouteInvalidConfigurationException($this->name ?: $this->uri ?: 'Undefined', $exceptions);
+
+            $this->clear();
+
+            throw $exception;
         }
 
         $pattern = null;
@@ -155,7 +170,7 @@ class RouteBuilder implements RouteBuilderInterface
             $this->uri,
             $this->action,
             $this->methods,
-            $routeName,
+            $this->name,
             $pattern,
             $parameters
         );

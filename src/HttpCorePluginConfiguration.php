@@ -21,18 +21,14 @@ use Micro\Plugin\Http\Configuration\HttpCorePluginConfigurationInterface;
  */
 class HttpCorePluginConfiguration extends PluginConfiguration implements HttpCorePluginConfigurationInterface
 {
-    public function getAccessLoggerName(): string
-    {
-        return 'default';
-    }
+    public const CFG_LOCATOR_TYPE_DEFAULT = 'code';
+    public const CFG_LOCATOR_TYPE = 'MICRO_HTTP_ROUTE_LOCATOR';
 
-    public function getErrorLoggerName(): string
-    {
-        return 'default';
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function getRouteLocatorType(): string
     {
-        return 'code';
+        return $this->configuration->get(self::CFG_LOCATOR_TYPE, self::CFG_LOCATOR_TYPE_DEFAULT, false);
     }
 }

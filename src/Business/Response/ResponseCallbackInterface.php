@@ -11,19 +11,20 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Executor;
+namespace Micro\Plugin\Http\Business\Response;
 
 use Micro\Plugin\Http\Exception\HttpException;
-use Symfony\Component\HttpFoundation\Request;
+use Micro\Plugin\Http\Exception\ResponseInvalidException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteExecutorInterface
+interface ResponseCallbackInterface
 {
     /**
+     * @throws ResponseInvalidException
      * @throws HttpException
      */
-    public function execute(Request $request, bool $flush = true): Response;
+    public function __invoke(): Response;
 }

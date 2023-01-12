@@ -9,7 +9,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Facade;
+namespace Micro\Plugin\Http\Test\Unit\Facade;
 
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorInterface;
@@ -20,6 +20,8 @@ use Micro\Plugin\Http\Business\Route\RouteBuilderInterface;
 use Micro\Plugin\Http\Business\Route\RouteCollectionFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteCollectionInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
+use Micro\Plugin\Http\Facade\HttpFacade;
+use Micro\Plugin\Http\Facade\HttpFacadeInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

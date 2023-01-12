@@ -11,12 +11,16 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Configuration;
+namespace Micro\Plugin\Http\Plugin;
+
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface HttpCorePluginConfigurationInterface
+interface HttpResponseTransformerPlugin
 {
-    public function getRouteLocatorType(): string;
+    public function weight(): int;
+
+    public function transform(Response $response, mixed &$responseData): bool;
 }

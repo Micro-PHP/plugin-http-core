@@ -9,8 +9,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Route;
 
+use Micro\Plugin\Http\Business\Route\Route;
+use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 
 class RouteTest extends TestCase
@@ -50,7 +52,7 @@ class RouteTest extends TestCase
 
     public function testGetAction()
     {
-        $action = $this->route->getAction();
+        $action = $this->route->getController();
         $this->assertIsCallable($action);
 
         $this->assertEquals(1, \call_user_func($action));

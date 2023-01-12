@@ -9,10 +9,13 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Route;
 
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactoryInterface;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
+use Micro\Plugin\Http\Business\Route\RouteCollectionFactory;
+use Micro\Plugin\Http\Business\Route\RouteCollectionInterface;
+use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 
 class RouteCollectionFactoryTest extends TestCase

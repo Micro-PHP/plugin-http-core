@@ -42,9 +42,16 @@ interface RouteBuilderInterface
     public function setMethods(array $methods): self;
 
     /**
+     * @param array<class-string, string|null>|class-string|\Closure $action
+     *
      * @return $this
      */
-    public function setAction(callable $action): self;
+    public function setController(string|array|\Closure $action): self;
+
+    /**
+     * @return $this
+     */
+    public function setUri(string $uri): self;
 
     /**
      * @throws RouteInvalidConfigurationException

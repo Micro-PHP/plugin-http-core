@@ -12,76 +12,22 @@ require_once 'vendor/autoload.php';
  */
 
 
-function helloWorld()
-{
-    print_r('Hello, World!');
-}
+$config = new \Micro\Framework\Kernel\Configuration\DefaultApplicationConfiguration([]);
 
-$routes = [
-    [ 'video_get_info', '/video/{id}/{action}.{_format}', 'helloWorld', ],
-    [ 'video_all', '/video/all', 'helloWorld', ],
-    [ 'video_test', '/video/{test}.{_format}', 'helloWorld', ]
-];
-
-$routesCompiled = [];
-
-$builder = new \Micro\Plugin\Http\Business\Route\RouteBuilder();
-try {
-
-    foreach ($routes as $item) {
-        $routesCompiled[] = $builder
-            ->setName($item[0])
-            ->setUri($item[1])
-            ->setAction($item[2])
-            ->build();
-    }
-
-} catch (\Micro\Plugin\Http\Exception\RouteInvalidConfigurationException $exception) {
-    print_r($exception->getMessage());
-
-    foreach ($exception->getMessages() as $message) {
-        print_r("\r\n  - " . $message);
-    }
-
-    print_r("\r\n");
-
-    exit;
-
-}
-
-readonly class Locator implements \Micro\Plugin\Http\Business\Locator\RouteLocatorInterface {
-
-    public function __construct(private iterable $routes)
-    {
-
-    }
-
-    public function locate(): iterable
-    {
-        foreach ($this->routes as $route) {
-            yield $route;
-        }
-    }
-}
-
-$request = \Symfony\Component\HttpFoundation\Request::create('/video/all');
-
-$routeCollectionFactory = new \Micro\Plugin\Http\Business\Route\RouteCollectionFactory(
-    new Locator($routesCompiled)
+$kernel = new \Micro\Kernel\App\AppKernel(
+    $config,
+    [
+        App\TestPlugin::class,
+        Micro\Plugin\Locator\LocatorPlugin::class,
+        Micro\Plugin\Http\HttpCorePlugin::class,
+        Micro\Plugin\Http\HttpRouterCodePlugin::class,
+    ],
+    'dev',
 );
 
-$routeMatcherFactory = new \Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory();
+$kernel->run();
 
-$urlMatcherFactory = new \Micro\Plugin\Http\Business\Matcher\UrlMatcherFactory(
-    $routeCollectionFactory,
-    $routeMatcherFactory,
-);
+$request = \Symfony\Component\HttpFoundation\Request::create('/test');
 
-$route = $urlMatcherFactory->create()->match($request);
-
-var_dump($route->getName());
-
-call_user_func($route->getAction());
-
-print_r($request->request->all());
-
+$kernel->container()->get(\Micro\Plugin\Http\Facade\HttpFacadeInterface::class)
+    ->execute($request);

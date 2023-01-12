@@ -1,0 +1,77 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ *  This file is part of the Micro framework package.
+ *
+ *  (c) Stanislau Komar <kost@micro-php.net>
+ *
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
+ */
+
+namespace Micro\Plugin\Http\Business\Response;
+
+use Micro\Component\DependencyInjection\Autowire\AutowireHelperInterface;
+use Micro\Plugin\Http\Business\Route\RouteInterface;
+use Micro\Plugin\Http\Exception\ResponseInvalidException;
+use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * @author Stanislau Komar <kost@micro-php.net>
+ */
+readonly class ResponseCallback implements ResponseCallbackInterface
+{
+    public function __construct(
+        private AutowireHelperInterface $autowireHelper,
+        private RouteInterface $route
+    ) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function __invoke(): Response
+    {
+        $controller = $this->route->getController();
+        $classController = $controller;
+        $classMethod = $this->route->getName();
+
+        if (\is_string($controller) && (mb_strpos($controller, '::') || class_exists($controller))) {
+            $controller = explode('::', $controller);
+        }
+
+        if (\is_array($controller)) {
+            if (!\count($controller)) {
+                throw new RouteInvalidConfigurationException($this->route->getName() ?? $this->route->getUri(), ['Controller is not defined.']);
+            }
+            $classController = $controller[0];
+            $classMethod = $controller[1] ?? $this->snakeToCamel($this->route->getName() ?? '');
+        }
+
+        /*
+         * @psalm-suppress RedundantConditionGivenDocblockType
+         * @psalm-suppress PossiblyNullArgument
+         */
+        if (!\is_object($classController)) {
+            $classController = $this->autowireHelper->autowire($classController)();
+        }
+
+        $controller = [$classController, $classMethod];
+
+        $response = \call_user_func($this->autowireHelper->autowire($controller));
+
+        if ($response instanceof Response) {
+            return $response;
+        }
+
+        throw new ResponseInvalidException($response);
+    }
+
+    protected function snakeToCamel(string $str): string
+    {
+        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
+    }
+}

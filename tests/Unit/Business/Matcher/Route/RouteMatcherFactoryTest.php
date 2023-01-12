@@ -9,8 +9,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher\Route;
+namespace Micro\Plugin\Http\Test\Unit\Business\Matcher\Route;
 
+use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
+use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherInterface;
 use PHPUnit\Framework\TestCase;
 
 class RouteMatcherFactoryTest extends TestCase

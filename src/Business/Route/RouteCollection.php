@@ -70,20 +70,22 @@ class RouteCollection implements RouteCollectionInterface
     public function addRoute(RouteInterface $route): self
     {
         $routeName = $route->getName();
+        $routeUri = $route->getUri();
+        $routeKeyInCollection = $routeName ?? $routeUri;
 
-        if (\array_key_exists($routeName, $this->routes)) {
+        if ($routeName && \array_key_exists($routeName, $this->routes)) {
             throw new RouteAlreadyDeclaredException($routeName);
         }
 
-        $this->routes[$routeName] = $route;
+        $this->routes[$routeKeyInCollection] = $route;
 
         if ($route->getPattern()) {
-            $this->routesNamesDynamic[] = $routeName;
+            $this->routesNamesDynamic[] = $routeKeyInCollection;
 
             return $this;
         }
 
-        $this->routesNamesStatic[] = $routeName;
+        $this->routesNamesStatic[] = $routeKeyInCollection;
 
         return $this;
     }

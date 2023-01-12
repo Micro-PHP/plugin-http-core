@@ -11,12 +11,14 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Configuration;
+namespace Micro\Plugin\Http\Business\Response;
+
+use Micro\Plugin\Http\Business\Route\RouteInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface HttpCorePluginConfigurationInterface
+interface ResponseCallbackFactoryInterface
 {
-    public function getRouteLocatorType(): string;
+    public function create(RouteInterface $route): ResponseCallbackInterface;
 }

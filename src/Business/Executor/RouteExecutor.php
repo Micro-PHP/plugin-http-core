@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Business\Executor;
 
-use Micro\Component\DependencyInjection\Autowire\AutowireHelperInterface;
 use Micro\Component\DependencyInjection\ContainerRegistryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
-use Micro\Plugin\Http\Exception\HttpException;
+use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Exception\HttpInternalServerException;
+use Micro\Plugin\Http\Exception\ResponseInvalidException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,49 +29,29 @@ readonly class RouteExecutor implements RouteExecutorInterface
     public function __construct(
         private UrlMatcherInterface $urlMatcher,
         private ContainerRegistryInterface $containerRegistry,
-        private AutowireHelperInterface $autowireHelper,
+        private ResponseCallbackFactoryInterface $responseCallbackFactory
     ) {
     }
 
     /**
-     * TODO: Temporary solution.
-     *  - Should implement Response transformers plugin.
-     *
      * {@inheritDoc}
      */
     public function execute(Request $request, bool $flush = true): Response
     {
+        $route = $this->urlMatcher->match($request);
+        $this->containerRegistry->register(Request::class, fn (): Request => $request);
+
+        $callback = $this->responseCallbackFactory->create($route);
         try {
-            $route = $this->urlMatcher->match($request);
-            $action = $route->getAction();
-
-            $this->containerRegistry->register(Request::class, fn () => $request);
-            $autowired = $this->autowireHelper->autowire($action);
-
-            $response = \call_user_func($autowired);
-            if (\is_scalar($response)) {
-                $response = new Response((string) $response);
-            }
-
-            if ($response instanceof Response && $flush) {
-                $response->send();
-            }
-
-            return $response;
-        } catch (HttpException $httpException) {
-            $response = new Response($httpException->getMessage(), $httpException->getCode());
-            if ($flush) {
-                $response->send();
-            }
-
-            throw $httpException;
-        } catch (\Throwable $exception) {
-            $response = new Response('Internal server exception', 500);
-            if ($flush) {
-                $response->send();
-            }
-
-            throw $exception;
+            $response = $callback();
+        } catch (ResponseInvalidException $exception) {
+            throw new HttpInternalServerException($request, $exception);
         }
+
+        if ($flush) {
+            $response->send();
+        }
+
+        return $response;
     }
 }

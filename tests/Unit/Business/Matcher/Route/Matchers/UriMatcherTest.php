@@ -9,8 +9,9 @@
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Matcher\Route\Matchers;
+namespace Micro\Plugin\Http\Test\Unit\Business\Matcher\Route\Matchers;
 
+use Micro\Plugin\Http\Business\Matcher\Route\Matchers\UriMatcher;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class UriMatcherTest extends TestCase
      *
      * @return void
      */
-    public function testMatch(string $requestUri, string $routeUri, string|null $routePattern, bool $excepted)
+    public function testMatch(string $requestUri, string $routeUri, string|null $routePattern, bool $excepted, array|null $parameters)
     {
         $matcher = new UriMatcher();
 
@@ -60,9 +61,9 @@ class UriMatcherTest extends TestCase
     public function dataProvider()
     {
         return [
-            ['/test/api.json', '/{first}/{second}.{_format}', '/\/(.[aA-zZ0-9_-]+)\/(.[aA-zZ0-9_-]+)\.(.[aA-zZ0-9_-]+)/', true],
-            ['/test/api.json', '/test/api', null, false],
-            ['/test/api', '/test/api', null, true],
+            ['/test/api.json', '/{first}/{second}.{_format}', '/\/(.[aA-zZ0-9_-]+)\/(.[aA-zZ0-9_-]+)\.(.[aA-zZ0-9_-]+)/', true, ['first', 'second', 'format']],
+            ['/test/api.json', '/test/api', null, false, null],
+            ['/test/api', '/test/api', null, true, null],
         ];
     }
 }
