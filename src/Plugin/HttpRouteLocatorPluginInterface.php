@@ -20,7 +20,7 @@ use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
  */
 interface HttpRouteLocatorPluginInterface
 {
-    public function getLocatorName(): string;
+    public function getLocatorType(): string;
 
     public function createLocator(): RouteLocatorInterface;
 }

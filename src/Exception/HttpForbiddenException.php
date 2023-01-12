@@ -11,12 +11,11 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Executor;
+namespace Micro\Plugin\Http\Exception;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteExecutorFactoryInterface
+class HttpForbiddenException extends HttpException
 {
-    public function create(): RouteExecutorInterface;
 }

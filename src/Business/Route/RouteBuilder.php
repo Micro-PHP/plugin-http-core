@@ -18,7 +18,7 @@ use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-class RouteBuilder
+class RouteBuilder implements RouteBuilderInterface
 {
     private string|null $name;
 
@@ -49,7 +49,7 @@ class RouteBuilder
     }
 
     /**
-     * @return $this
+     * {@inheritDoc}
      */
     public function setName(string $name): self
     {
@@ -59,7 +59,7 @@ class RouteBuilder
     }
 
     /**
-     * @return $this
+     * {@inheritDoc}
      */
     public function addMethod(string $method): self
     {
@@ -71,9 +71,7 @@ class RouteBuilder
     }
 
     /**
-     * @param string[] $methods
-     *
-     * @return $this
+     * {@inheritDoc}
      */
     public function setMethods(array $methods): self
     {
@@ -87,7 +85,7 @@ class RouteBuilder
     }
 
     /**
-     * @return $this
+     * {@inheritDoc}
      */
     public function setAction(callable $action): self
     {
@@ -97,7 +95,7 @@ class RouteBuilder
     }
 
     /**
-     * @return $this
+     * {@inheritDoc}
      */
     public function setUri(string $uri): self
     {
@@ -109,7 +107,7 @@ class RouteBuilder
     /**
      * TODO: Move pattern builder to separate class.
      *
-     * @throws RouteInvalidConfigurationException
+     * {@inheritDoc}
      */
     public function build(): RouteInterface
     {

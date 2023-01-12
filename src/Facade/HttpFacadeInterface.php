@@ -15,6 +15,7 @@ namespace Micro\Plugin\Http\Facade;
 
 use Micro\Plugin\Http\Business\Executor\RouteExecutorInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
+use Micro\Plugin\Http\Business\Route\RouteBuilderInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -25,4 +26,6 @@ interface HttpFacadeInterface extends UrlMatcherInterface, RouteExecutorInterfac
      * @return string[]
      */
     public function getDeclaredRoutesNames(): iterable;
+
+    public function createRouteBuilder(): RouteBuilderInterface;
 }

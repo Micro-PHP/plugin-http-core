@@ -1,14 +1,13 @@
 <?php
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
-
 
 namespace Micro\Plugin\Http\Business\Route;
 
@@ -18,16 +17,15 @@ use PHPUnit\Framework\TestCase;
 
 class RouteCollectionTest extends TestCase
 {
-
-    const ROUTES_DATA = [
-        [ 'test', ],
-        [ 'abc',  ],
-        [ 'xzc',  ]
+    public const ROUTES_DATA = [
+        ['test'],
+        ['abc'],
+        ['xzc'],
     ];
 
     private RouteCollectionInterface $routeCollection;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         $this->routeCollection = new RouteCollection($this->createRoutes());
     }
@@ -42,7 +40,7 @@ class RouteCollectionTest extends TestCase
             $tmpRoute->expects($this->any())->method('getName')->willReturn($routeData[0]);
             $tmpRoute->expects($this->any())->method('getUri')->willReturn('/test');
             $tmpRoute->expects($this->any())->method('getMethods')->willReturn([]);
-            $tmpRoute->expects($this->any())->method('getAction')->willReturn(function() {});
+            $tmpRoute->expects($this->any())->method('getAction')->willReturn(function () {});
             $tmpRoute->expects($this->any())->method('getParameters')->willReturn([]);
 
             $routes[] = $tmpRoute;
@@ -102,6 +100,6 @@ class RouteCollectionTest extends TestCase
             $this->assertInstanceOf(RouteInterface::class, $route);
         }
 
-        $this->assertEquals(count(self::ROUTES_DATA), $i);
+        $this->assertEquals(\count(self::ROUTES_DATA), $i);
     }
 }

@@ -15,6 +15,8 @@ namespace Micro\Plugin\Http\Facade;
 
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
+use Micro\Plugin\Http\Business\Route\RouteBuilderFactoryInterface;
+use Micro\Plugin\Http\Business\Route\RouteBuilderInterface;
 use Micro\Plugin\Http\Business\Route\RouteCollectionFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +30,17 @@ readonly class HttpFacade implements HttpFacadeInterface
     public function __construct(
         private UrlMatcherFactoryInterface $urlMatcherFactory,
         private RouteCollectionFactoryInterface $routeCollectionFactory,
-        private RouteExecutorFactoryInterface $routeExecutorFactory
+        private RouteExecutorFactoryInterface $routeExecutorFactory,
+        private RouteBuilderFactoryInterface $routeBuilderFactory
     ) {
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function createRouteBuilder(): RouteBuilderInterface
+    {
+        return $this->routeBuilderFactory->create();
     }
 
     /**
@@ -45,7 +56,7 @@ readonly class HttpFacade implements HttpFacadeInterface
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request = null): RouteInterface
+    public function match(Request $request): RouteInterface
     {
         return $this->urlMatcherFactory
             ->create()

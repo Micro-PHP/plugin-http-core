@@ -1,14 +1,13 @@
 <?php
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
-
 
 namespace Micro\Plugin\Http\Business\Route;
 
@@ -18,19 +17,17 @@ use PHPUnit\Framework\TestCase;
 
 class RouteCollectionFactoryTest extends TestCase
 {
-
     public function testCreate()
     {
-
         $routes = [];
         $routesCount = 10;
         for ($i = 0; $i < $routesCount; ++$i) {
             $tmpRoute = $this->createMock(RouteInterface::class);
 
-            $tmpRoute->expects($this->any())->method('getName')->willReturn('test_' . rand());
-            $tmpRoute->expects($this->any())->method('getUri')->willReturn('test_' . rand());
+            $tmpRoute->expects($this->any())->method('getName')->willReturn('test_'.rand());
+            $tmpRoute->expects($this->any())->method('getUri')->willReturn('test_'.rand());
 
-            $routes []= $tmpRoute;
+            $routes[] = $tmpRoute;
         }
 
         $routeLocator = $this->createMock(RouteLocatorInterface::class);
@@ -51,7 +48,7 @@ class RouteCollectionFactoryTest extends TestCase
 
         $this->assertInstanceOf(RouteCollectionInterface::class, $collection);
 
-        $actualCount = count($collection->getRoutes());
+        $actualCount = \count($collection->getRoutes());
 
         $this->assertEquals($routesCount, $actualCount);
     }

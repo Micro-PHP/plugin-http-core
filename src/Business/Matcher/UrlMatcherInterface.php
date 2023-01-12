@@ -25,5 +25,5 @@ interface UrlMatcherInterface
     /**
      * @throws HttpException
      */
-    public function match(Request $request = null): RouteInterface;
+    public function match(Request $request): RouteInterface;
 }

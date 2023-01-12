@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Exception;
 
-use Micro\Plugin\Http\Business\Route\RouteInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -21,29 +20,17 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HttpException extends \RuntimeException
 {
-    private readonly RouteInterface|null $route;
-
     private readonly Request|null $request;
 
-    /**
-     * @param RouteInterface|null $route
-     */
     public function __construct(
         string $message = '',
         int $code = 0,
         Request $request = null,
-        RouteInterface|null $route = null,
         ?\Throwable $previous = null
     ) {
         parent::__construct($message, $code, $previous);
 
-        $this->route = $route;
         $this->request = $request;
-    }
-
-    public function getRoute(): RouteInterface|null
-    {
-        return $this->route;
     }
 
     public function getRequest(): Request|null

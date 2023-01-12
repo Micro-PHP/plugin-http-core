@@ -11,12 +11,17 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Executor;
+namespace Micro\Plugin\Http\Exception;
+
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteExecutorFactoryInterface
+class HttpUnauthorizedException extends HttpException
 {
-    public function create(): RouteExecutorInterface;
+    public function __construct(Request $request, string $message = 'Unauthorized.', ?\Throwable $previous = null)
+    {
+        parent::__construct($message, 401, $request, $previous);
+    }
 }

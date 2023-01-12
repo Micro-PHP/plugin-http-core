@@ -33,12 +33,8 @@ readonly class UrlMatcher implements UrlMatcherInterface
     /**
      * {@inheritDoc}
      */
-    public function match(Request $request = null): RouteInterface
+    public function match(Request $request): RouteInterface
     {
-        if (null === $request) {
-            $request = Request::createFromGlobals();
-        }
-
         foreach ($this->routeCollection->iterateRoutes() as $route) {
             if (!$this->routeMatcher->match($route, $request)) {
                 continue;

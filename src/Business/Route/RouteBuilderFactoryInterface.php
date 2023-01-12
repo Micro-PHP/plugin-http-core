@@ -11,12 +11,12 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Executor;
+namespace Micro\Plugin\Http\Business\Route;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface RouteExecutorFactoryInterface
+interface RouteBuilderFactoryInterface
 {
-    public function create(): RouteExecutorInterface;
+    public function create(): RouteBuilderInterface;
 }

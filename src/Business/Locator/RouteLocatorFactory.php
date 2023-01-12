@@ -37,7 +37,7 @@ readonly class RouteLocatorFactory implements RouteLocatorFactoryInterface
 
         /** @var HttpRouteLocatorPluginInterface $provider */
         foreach ($this->kernel->plugins(HttpRouteLocatorPluginInterface::class) as $provider) {
-            if ($providerType !== mb_strtolower($provider->getLocatorName())) {
+            if ($providerType !== mb_strtolower($provider->getLocatorType())) {
                 continue;
             }
 

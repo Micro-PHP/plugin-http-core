@@ -18,10 +18,13 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-class HttpNotFoundException extends HttpException
+class HttpBadRequestException extends HttpException
 {
-    public function __construct(Request $request, string $message = 'Not Found.', ?\Throwable $previous = null)
+    /**
+     * @param \Throwable|null $previous
+     */
+    public function __construct(Request $request, string $message = 'Bad Request.', \Throwable|null $previous = null)
     {
-        parent::__construct($message, 404, $request, $previous);
+        parent::__construct($message, 400, $request, $previous);
     }
 }

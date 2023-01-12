@@ -1,14 +1,13 @@
 <?php
 
-/**
- * This file is part of the Micro framework package.
+/*
+ *  This file is part of the Micro framework package.
  *
- * (c) Stanislau Komar <kost@micro-php.net>
+ *  (c) Stanislau Komar <kost@micro-php.net>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *  For the full copyright and license information, please view the LICENSE
+ *  file that was distributed with this source code.
  */
-
 
 namespace Micro\Plugin\Http\Business\Route;
 
@@ -17,20 +16,12 @@ use PHPUnit\Framework\TestCase;
 
 class RouteBuilderTest extends TestCase
 {
-
-    const METHOD_DEFAULTS = [
-        'PUT', 'POST', 'PATCH', 'GET', 'DELETE'
+    public const METHOD_DEFAULTS = [
+        'PUT', 'POST', 'PATCH', 'GET', 'DELETE',
     ];
 
     /**
      * @dataProvider dataProvider
-     *
-     * @param string|null $routeName
-     * @param callable|null $action
-     * @param string|null $uri
-     * @param string|null $pattern
-     * @param array|null $methods
-     * @param string|null $allowedException
      *
      * @return void
      */
@@ -41,33 +32,32 @@ class RouteBuilderTest extends TestCase
         string|null $pattern,
         array|null $methods,
         string|null $allowedException
-    )
-    {
+    ) {
         $builder = new RouteBuilder();
 
-        if($routeName) {
+        if ($routeName) {
             $builder->setName($routeName);
         }
 
-        if($action) {
+        if ($action) {
             $builder->setAction($action);
         }
 
-        if($uri) {
+        if ($uri) {
             $builder->setUri($uri);
         }
 
-        if($methods) {
+        if ($methods) {
             $builder->setMethods($methods);
         }
 
-        if($allowedException) {
+        if ($allowedException) {
             $this->expectException($allowedException);
         }
 
         $route = $builder->build();
 
-        if($allowedException) {
+        if ($allowedException) {
             return;
         }
 
@@ -76,17 +66,16 @@ class RouteBuilderTest extends TestCase
         $this->assertEquals($methods ?: self::METHOD_DEFAULTS, $route->getMethods());
         $this->assertEquals($pattern, $route->getPattern());
         $this->assertEquals($routeName ?: $uri, $route->getName());
-
     }
 
     public function dataProvider()
     {
         return [
-            [ 'test', function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null ],
-            [ null, function() {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null,],
-            [ 'test', null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
-            [ 'test', function() {}, '/test', null, null, null,],
-            [ 'test', function() {}, null, null, null, RouteInvalidConfigurationException::class ],
+            ['test', function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null],
+            [null, function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null],
+            ['test', null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
+            ['test', function () {}, '/test', null, null, null],
+            ['test', function () {}, null, null, null, RouteInvalidConfigurationException::class],
         ];
     }
 }

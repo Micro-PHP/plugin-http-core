@@ -54,7 +54,7 @@ class RouteLocatorFactoryTest extends TestCase
 
         $stubLocator
             ->expects($this->once())
-            ->method('getLocatorName')
+            ->method('getLocatorType')
             ->willReturn($locatorAlias);
 
         if (!$isLocatorNotFound) {
