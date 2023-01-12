@@ -52,7 +52,8 @@
         "psalm": "./vendor/bin/psalm --no-progress --show-info=true",
         "statics": [
             "@phpstan",
-            "@psalm"
+            "@psalm",
+            "@php-cs-try"
         ],
         "test": [
             "@statics",

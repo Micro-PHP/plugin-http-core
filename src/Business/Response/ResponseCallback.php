@@ -51,11 +51,9 @@ readonly class ResponseCallback implements ResponseCallbackInterface
             $classMethod = $controller[1] ?? $this->snakeToCamel($this->route->getName() ?? '');
         }
 
-        /*
-         * @psalm-suppress RedundantConditionGivenDocblockType
-         * @psalm-suppress PossiblyNullArgument
-         */
+        /* @psalm-suppress RedundantConditionGivenDocblockType */
         if (!\is_object($classController)) {
+            /** @psalm-suppress PossiblyNullArgument */
             $classController = $this->autowireHelper->autowire($classController)();
         }
 
