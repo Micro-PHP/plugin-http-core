@@ -13,6 +13,7 @@ namespace Micro\Plugin\Http\Test\Unit\Facade;
 
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorInterface;
+use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactoryInterface;
@@ -80,12 +81,24 @@ class HttpFacadeTest extends TestCase
             ->method('create')
             ->willReturn($this->createMock(RouteBuilderInterface::class));
 
+        $urlGeneratorFactory = $this->createMock(UrlGeneratorFactoryInterface::class);
+
         $this->facade = new HttpFacade(
             $urlMatcherFactory,
             $routeCollectionFactory,
             $routeExecutorFactory,
             $routeBuilderFactory,
+            $urlGeneratorFactory,
         );
+    }
+
+    public function testGenerateUrlByRouteName()
+    {
+        $value = $this->facade->generateUrlByRouteName('test', []);
+        $this->assertEquals('', $value);
+
+        $value = $this->facade->generateUrlByRouteName('test');
+        $this->assertEquals('', $value);
     }
 
     public function testCreateRouteBuilder()

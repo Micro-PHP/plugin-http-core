@@ -18,11 +18,14 @@ use Micro\Plugin\Http\Business\Locator\RouteLocatorFactoryInterface;
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-readonly class RouteCollectionFactory implements RouteCollectionFactoryInterface
+class RouteCollectionFactory implements RouteCollectionFactoryInterface
 {
+    private RouteCollectionInterface|null $routeCollection;
+
     public function __construct(
-        private RouteLocatorFactoryInterface $routeLocatorFactory
+        private readonly RouteLocatorFactoryInterface $routeLocatorFactory
     ) {
+        $this->routeCollection = null;
     }
 
     /**
@@ -30,6 +33,10 @@ readonly class RouteCollectionFactory implements RouteCollectionFactoryInterface
      */
     public function create(): RouteCollectionInterface
     {
+        if ($this->routeCollection) {
+            return $this->routeCollection;
+        }
+
         $collection = new RouteCollection();
 
         $locator = $this->routeLocatorFactory->create();
@@ -37,6 +44,6 @@ readonly class RouteCollectionFactory implements RouteCollectionFactoryInterface
             $collection->addRoute($route);
         }
 
-        return $collection;
+        return $this->routeCollection = $collection;
     }
 }

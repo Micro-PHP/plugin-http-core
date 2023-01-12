@@ -22,6 +22,8 @@ use Micro\Framework\Kernel\Plugin\DependencyProviderInterface;
 use Micro\Framework\Kernel\Plugin\PluginConfigurationTrait;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactory;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
+use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactory;
+use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactoryInterface;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactory;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
@@ -82,7 +84,13 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
             $routeCollectionFactory,
             $this->createRouteExecutorFactory($urlMatcherFactory),
             $this->createRouteBuilderFactory(),
+            $this->createUrlGeneratorFactory($routeCollectionFactory)
         );
+    }
+
+    protected function createUrlGeneratorFactory(RouteCollectionFactoryInterface $routeCollectionFactory): UrlGeneratorFactoryInterface
+    {
+        return new UrlGeneratorFactory($routeCollectionFactory);
     }
 
     protected function createRouteBuilderFactory(): RouteBuilderFactoryInterface

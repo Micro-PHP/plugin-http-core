@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Micro\Plugin\Http\Facade;
 
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
+use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteBuilderInterface;
@@ -31,7 +32,8 @@ readonly class HttpFacade implements HttpFacadeInterface
         private UrlMatcherFactoryInterface $urlMatcherFactory,
         private RouteCollectionFactoryInterface $routeCollectionFactory,
         private RouteExecutorFactoryInterface $routeExecutorFactory,
-        private RouteBuilderFactoryInterface $routeBuilderFactory
+        private RouteBuilderFactoryInterface $routeBuilderFactory,
+        private UrlGeneratorFactoryInterface $urlGeneratorFactory
     ) {
     }
 
@@ -71,5 +73,15 @@ readonly class HttpFacade implements HttpFacadeInterface
         return $this->routeExecutorFactory
             ->create()
             ->execute($request, $flush);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function generateUrlByRouteName(string $routeName, array|null $parameters = []): string
+    {
+        return $this->urlGeneratorFactory
+            ->create()
+            ->generateUrlByRouteName($routeName, $parameters);
     }
 }
