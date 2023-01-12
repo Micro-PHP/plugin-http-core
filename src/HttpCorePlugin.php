@@ -20,6 +20,7 @@ use Micro\Framework\Kernel\KernelInterface;
 use Micro\Framework\Kernel\Plugin\ConfigurableInterface;
 use Micro\Framework\Kernel\Plugin\DependencyProviderInterface;
 use Micro\Framework\Kernel\Plugin\PluginConfigurationTrait;
+use Micro\Framework\Kernel\Plugin\PluginDependedInterface;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactory;
 use Micro\Plugin\Http\Business\Executor\RouteExecutorFactoryInterface;
 use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactory;
@@ -39,13 +40,14 @@ use Micro\Plugin\Http\Business\Route\RouteCollectionFactoryInterface;
 use Micro\Plugin\Http\Configuration\HttpCorePluginConfigurationInterface;
 use Micro\Plugin\Http\Facade\HttpFacade;
 use Micro\Plugin\Http\Facade\HttpFacadeInterface;
+use Micro\Plugin\Locator\LocatorPlugin;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  *
  * @method HttpCorePluginConfigurationInterface configuration()
  */
-class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterface
+class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterface, PluginDependedInterface
 {
     use PluginConfigurationTrait;
 
@@ -151,5 +153,12 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
             $this->container,
             $this->createResponseCallbackFactory(),
         );
+    }
+
+    public function getDependedPlugins(): iterable
+    {
+        return [
+            LocatorPlugin::class,
+        ];
     }
 }
