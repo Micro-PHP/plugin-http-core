@@ -86,7 +86,7 @@ readonly class RouteExecutor implements RouteExecutorInterface
         }
 
         if (!$transformed) {
-            throw new HttpInternalServerException();
+            throw new HttpInternalServerException('Internal Server Error.', $responseData instanceof \Throwable ? $responseData : null);
         }
 
         return $response;
