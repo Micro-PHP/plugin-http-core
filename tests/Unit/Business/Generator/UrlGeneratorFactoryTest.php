@@ -9,7 +9,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Unit\Business\Generator;
+namespace Micro\Plugin\Http\Test\Unit\Business\Generator;
 
 use Micro\Plugin\Http\Business\Generator\UrlGeneratorFactory;
 use Micro\Plugin\Http\Business\Generator\UrlGeneratorInterface;

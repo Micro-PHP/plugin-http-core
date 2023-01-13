@@ -11,14 +11,15 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Response;
+namespace Micro\Plugin\Http\Business\Response\Transformer;
 
-use Micro\Plugin\Http\Business\Route\RouteInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-interface ResponseCallbackFactoryInterface
+interface ResponseTransformerInterface
 {
-    public function create(RouteInterface $route): ResponseCallbackInterface;
+    public function transform(Request $request, Response $response, mixed &$responseData): bool;
 }

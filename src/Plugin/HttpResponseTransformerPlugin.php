@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Plugin;
 
-use Symfony\Component\HttpFoundation\Response;
+use Micro\Plugin\Http\Business\Response\Transformer\ResponseTransformerInterface;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -22,5 +22,5 @@ interface HttpResponseTransformerPlugin
 {
     public function weight(): int;
 
-    public function transform(Response $response, mixed &$responseData): bool;
+    public function createTransformer(): ResponseTransformerInterface;
 }

@@ -31,8 +31,10 @@ use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactory;
 use Micro\Plugin\Http\Business\Matcher\Route\RouteMatcherFactoryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactory;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherFactoryInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackFactory;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackFactory;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Business\Response\Transformer\ResponseTransformerFactory;
+use Micro\Plugin\Http\Business\Response\Transformer\ResponseTransformerFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactory;
 use Micro\Plugin\Http\Business\Route\RouteBuilderFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteCollectionFactory;
@@ -152,6 +154,14 @@ class HttpCorePlugin implements DependencyProviderInterface, ConfigurableInterfa
             $urlMatcherFactory,
             $this->container,
             $this->createResponseCallbackFactory(),
+            $this->createResponseTransformerFactory()
+        );
+    }
+
+    protected function createResponseTransformerFactory(): ResponseTransformerFactoryInterface
+    {
+        return new ResponseTransformerFactory(
+            $this->kernel
         );
     }
 

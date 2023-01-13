@@ -11,11 +11,10 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Response;
+namespace Micro\Plugin\Http\Business\Response\Callback;
 
 use Micro\Plugin\Http\Exception\HttpException;
 use Micro\Plugin\Http\Exception\ResponseInvalidException;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -26,5 +25,5 @@ interface ResponseCallbackInterface
      * @throws ResponseInvalidException
      * @throws HttpException
      */
-    public function __invoke(): Response;
+    public function __invoke(): mixed;
 }

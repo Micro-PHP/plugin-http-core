@@ -9,13 +9,14 @@
  *  file that was distributed with this source code.
  */
 
-namespace Unit\Business\Executor;
+namespace Micro\Plugin\Http\Test\Unit\Business\Executor;
 
 use Micro\Component\DependencyInjection\ContainerRegistryInterface;
 use Micro\Plugin\Http\Business\Executor\RouteExecutor;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackInterface;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackInterface;
+use Micro\Plugin\Http\Business\Response\Transformer\ResponseTransformerFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use Micro\Plugin\Http\Exception\HttpException;
 use Micro\Plugin\Http\Exception\ResponseInvalidException;
@@ -28,14 +29,14 @@ class RouteExecutorTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testExecute(bool $isFlush, string|null $exceptionClass)
+    public function testExecute(bool $isFlush, \Throwable|null $exception)
     {
         $containerRegistry = $this->createMock(ContainerRegistryInterface::class);
         $request = $this->createMock(Request::class);
         $response = $this->createMock(Response::class);
-        $exception = $exceptionClass ? new $exceptionClass(null) : null;
+        $responseTransformerFactory = $this->createMock(ResponseTransformerFactoryInterface::class);
 
-        if ($isFlush && !$exceptionClass) {
+        if ($isFlush && !$exception) {
             $response
                 ->expects($this->once())
                 ->method('send');
@@ -45,9 +46,10 @@ class RouteExecutorTest extends TestCase
             $this->createUrlMatcher($request),
             $containerRegistry,
             $this->createResponseCallbackFactory($response, $exception),
+            $responseTransformerFactory
         );
 
-        if ($exceptionClass) {
+        if ($exception) {
             $this->expectException(HttpException::class);
         }
 
@@ -59,8 +61,9 @@ class RouteExecutorTest extends TestCase
     {
         return [
             [true, null],
-            [false, null],
-            [false, ResponseInvalidException::class],
+            [false, new HttpException()],
+            [false, new ResponseInvalidException('Response invalid exception data')],
+            [false, new \Exception('Simple exception')],
         ];
     }
 

@@ -11,13 +11,11 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Response;
+namespace Micro\Plugin\Http\Business\Response\Callback;
 
 use Micro\Component\DependencyInjection\Autowire\AutowireHelperInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
-use Micro\Plugin\Http\Exception\ResponseInvalidException;
 use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -33,9 +31,15 @@ readonly class ResponseCallback implements ResponseCallbackInterface
     /**
      * {@inheritDoc}
      */
-    public function __invoke(): Response
+    public function __invoke(): mixed
     {
         $controller = $this->route->getController();
+        if (\is_callable($controller)) {
+            $callback = $this->autowireHelper->autowire($controller);
+
+            return $callback();
+        }
+
         $classController = $controller;
         $classMethod = $this->route->getName();
 
@@ -59,13 +63,7 @@ readonly class ResponseCallback implements ResponseCallbackInterface
 
         $controller = [$classController, $classMethod];
 
-        $response = \call_user_func($this->autowireHelper->autowire($controller));
-
-        if ($response instanceof Response) {
-            return $response;
-        }
-
-        throw new ResponseInvalidException($response);
+        return \call_user_func($this->autowireHelper->autowire($controller));
     }
 
     protected function snakeToCamel(string $str): string

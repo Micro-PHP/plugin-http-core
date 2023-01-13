@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Exception;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
 class HttpUnauthorizedException extends HttpException
 {
-    public function __construct(Request $request, string $message = 'Unauthorized.', ?\Throwable $previous = null)
+    public function __construct(string $message = 'Unauthorized.', ?\Throwable $previous = null)
     {
-        parent::__construct($message, 401, $request, $previous);
+        parent::__construct($message, 401, $previous);
     }
 }

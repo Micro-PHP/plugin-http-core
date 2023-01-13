@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Exception;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
 class HttpInternalServerException extends HttpException
 {
-    public function __construct(Request $request = null, ?\Throwable $previous = null, string $message = 'Internal Server Error.')
+    public function __construct(string $message = 'Internal Server Error.', ?\Throwable $previous = null)
     {
-        parent::__construct($message, 500, $request, $previous);
+        parent::__construct($message, 500, $previous);
     }
 }

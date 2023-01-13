@@ -11,7 +11,7 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Business\Response;
+namespace Micro\Plugin\Http\Business\Response\Callback;
 
 use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactoryInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
@@ -26,14 +26,11 @@ readonly class ResponseCallbackFactory implements ResponseCallbackFactoryInterfa
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(RouteInterface $route): ResponseCallbackInterface
     {
         return new ResponseCallback(
             $this->autowireHelperFactory->create(),
-            $route
+            $route,
         );
     }
 }

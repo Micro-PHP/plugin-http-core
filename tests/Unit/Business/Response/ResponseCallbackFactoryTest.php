@@ -9,11 +9,11 @@
  *  file that was distributed with this source code.
  */
 
-namespace Unit\Business\Response;
+namespace Micro\Plugin\Http\Test\Unit\Business\Response;
 
 use Micro\Component\DependencyInjection\Autowire\AutowireHelperFactoryInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackFactory;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackInterface;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackFactory;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackInterface;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 

@@ -11,18 +11,12 @@ declare(strict_types=1);
  *  file that was distributed with this source code.
  */
 
-namespace Micro\Plugin\Http\Exception;
+namespace Micro\Plugin\Http\Business\Response\Transformer;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-class HttpBadRequestException extends HttpException
+interface ResponseTransformerFactoryInterface
 {
-    /**
-     * @param \Throwable|null $previous
-     */
-    public function __construct(string $message = 'Bad Request.', \Throwable|null $previous = null)
-    {
-        parent::__construct($message, 400, $previous);
-    }
+    public function create(): ResponseTransformerInterface;
 }

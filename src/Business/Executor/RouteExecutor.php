@@ -15,9 +15,10 @@ namespace Micro\Plugin\Http\Business\Executor;
 
 use Micro\Component\DependencyInjection\ContainerRegistryInterface;
 use Micro\Plugin\Http\Business\Matcher\UrlMatcherInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallbackFactoryInterface;
+use Micro\Plugin\Http\Business\Response\Transformer\ResponseTransformerFactoryInterface;
+use Micro\Plugin\Http\Exception\HttpException;
 use Micro\Plugin\Http\Exception\HttpInternalServerException;
-use Micro\Plugin\Http\Exception\ResponseInvalidException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +30,8 @@ readonly class RouteExecutor implements RouteExecutorInterface
     public function __construct(
         private UrlMatcherInterface $urlMatcher,
         private ContainerRegistryInterface $containerRegistry,
-        private ResponseCallbackFactoryInterface $responseCallbackFactory
+        private ResponseCallbackFactoryInterface $responseCallbackFactory,
+        private ResponseTransformerFactoryInterface $responseTransformerFactory
     ) {
     }
 
@@ -40,16 +42,51 @@ readonly class RouteExecutor implements RouteExecutorInterface
     {
         $route = $this->urlMatcher->match($request);
         $this->containerRegistry->register(Request::class, fn (): Request => $request);
-
         $callback = $this->responseCallbackFactory->create($route);
+
         try {
             $response = $callback();
-        } catch (ResponseInvalidException $exception) {
-            throw new HttpInternalServerException($request, $exception);
+            $response = $this->generateResponse($request, $response);
+        } catch (HttpException $exception) {
+            throw $exception;
+        } catch (\Throwable $exception) {
+            $response = $this->generateResponse($request, $exception, false);
         }
 
         if ($flush) {
             $response->send();
+        }
+
+        return $response;
+    }
+
+    protected function generateResponse(Request $request, mixed $responseData, bool $tryIfThrowNoHttpException = true): Response
+    {
+        if ($responseData instanceof Response) {
+            return $responseData;
+        }
+
+        $response = new Response();
+        try {
+            $transformed = $this->responseTransformerFactory
+                ->create()
+                ->transform(
+                    $request,
+                    $response,
+                    $responseData
+                );
+        } catch (HttpException $exception) {
+            throw $exception;
+        } catch (\Throwable $exception) {
+            if ($tryIfThrowNoHttpException) {
+                return $this->generateResponse($request, $exception, false);
+            }
+
+            throw new HttpInternalServerException('Internal Server Error.', $exception);
+        }
+
+        if (!$transformed) {
+            throw new HttpInternalServerException();
         }
 
         return $response;

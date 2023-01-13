@@ -9,10 +9,10 @@
  *  file that was distributed with this source code.
  */
 
-namespace Unit\Business\Response;
+namespace Micro\Plugin\Http\Test\Unit\Business\Response;
 
 use Micro\Component\DependencyInjection\Autowire\AutowireHelperInterface;
-use Micro\Plugin\Http\Business\Response\ResponseCallback;
+use Micro\Plugin\Http\Business\Response\Callback\ResponseCallback;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;

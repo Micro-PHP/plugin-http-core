@@ -9,7 +9,7 @@
  *  file that was distributed with this source code.
  */
 
-namespace Unit;
+namespace Micro\Plugin\Http\Test\Unit;
 
 use Micro\Framework\Kernel\Configuration\ApplicationConfigurationInterface;
 use Micro\Plugin\Http\HttpCorePluginConfiguration;

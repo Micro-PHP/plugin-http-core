@@ -13,15 +13,13 @@ declare(strict_types=1);
 
 namespace Micro\Plugin\Http\Exception;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
 class HttpNotFoundException extends HttpException
 {
-    public function __construct(Request $request, string $message = 'Not Found.', ?\Throwable $previous = null)
+    public function __construct(string $message = 'Not Found.', ?\Throwable $previous = null)
     {
-        parent::__construct($message, 404, $request, $previous);
+        parent::__construct($message, 404, $previous);
     }
 }

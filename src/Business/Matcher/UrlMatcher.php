@@ -43,6 +43,6 @@ readonly class UrlMatcher implements UrlMatcherInterface
             return $route;
         }
 
-        throw new HttpNotFoundException($request);
+        throw new HttpNotFoundException();
     }
 }
