@@ -1,5 +1,5 @@
 {
-    "name": "micro/http-core",
+    "name": "micro/plugin-http-core",
     "description": "Micro Framework: Lightweight HTTP router",
     "license": "MIT",
     "type": "micro-plugin",
