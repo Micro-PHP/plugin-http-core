@@ -56,10 +56,12 @@ class RouteBuilderTest extends TestCase
             $this->expectException($allowedException);
         }
 
-        $route = $builder->build();
+        try {
+            $route = $builder->build();
+        } catch (RouteInvalidConfigurationException $configurationException) {
+            $this->assertNotEmpty($configurationException->getMessages());
 
-        if ($allowedException) {
-            return;
+            throw $configurationException;
         }
 
         $this->assertIsCallable($route->getController());
@@ -73,10 +75,11 @@ class RouteBuilderTest extends TestCase
     {
         return [
             ['test', function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null],
+            ['test', function () {}, '/{test}-{date}.{_format}', '/\/(.[aA-zZ0-9-_]+)-(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null],
             [null, function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null],
             ['test', null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
             ['test', function () {}, '/test', null, null, null],
-            ['test', function () {}, null, null, null, RouteInvalidConfigurationException::class],
+            ['test', null, null, null, null, RouteInvalidConfigurationException::class],
         ];
     }
 }

@@ -30,7 +30,7 @@ class HttpCorePluginTest extends TestCase
         $kernel = new AppKernel(
             $config,
             [
-                TestPlugin::class,
+                HttpTestPlugin::class,
             ],
             'dev',
         );
