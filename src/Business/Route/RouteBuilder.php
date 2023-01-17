@@ -116,7 +116,7 @@ class RouteBuilder implements RouteBuilderInterface
         if (!$this->uri) {
             $this->uri = '';
 
-            $exceptions[] = 'Path can not be empty';
+            $exceptions[] = 'Uri can not be empty.';
         }
 
         if ($this->name && !preg_match('/^(.[aA-zZ_])/', $this->name)) {

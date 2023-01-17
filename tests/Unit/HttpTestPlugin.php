@@ -29,7 +29,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Stanislau Komar <kost@micro-php.net>
  */
-class TestPlugin implements DependencyProviderInterface, HttpResponseTransformerPlugin, HttpRouteLocatorPluginInterface, PluginDependedInterface
+class HttpTestPlugin implements DependencyProviderInterface, HttpResponseTransformerPlugin, HttpRouteLocatorPluginInterface, PluginDependedInterface
 {
     private Container $container;
 
@@ -77,7 +77,7 @@ class TestPlugin implements DependencyProviderInterface, HttpResponseTransformer
         }
 
         if ('bad_request' === $parameter) {
-            throw new HttpBadRequestException($request);
+            throw new HttpBadRequestException();
         }
 
         return $parameter;
@@ -96,7 +96,7 @@ class TestPlugin implements DependencyProviderInterface, HttpResponseTransformer
                     ->createRouteBuilder()
                     ->setUri('/{parameter}')
                     ->setName('test')
-                    ->setController(TestPlugin::class)
+                    ->setController(HttpTestPlugin::class)
                     ->build()
                 ;
             }

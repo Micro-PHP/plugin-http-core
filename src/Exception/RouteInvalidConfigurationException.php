@@ -28,7 +28,12 @@ class RouteInvalidConfigurationException extends RouteConfigurationException
      */
     public function __construct(string $routeName, array $messages, int $code = 0, ?\Throwable $previous = null)
     {
-        $message = sprintf('Invalid route "%s" configuration.', $routeName);
+        $message = <<<EOF
+            Invalid route "%s" configuration:
+                * %s
+        EOF;
+
+        $message = sprintf($message, $routeName, implode("\r\n        * ", $messages));
 
         $this->messages = $messages;
         parent::__construct(
