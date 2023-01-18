@@ -156,7 +156,7 @@ class RouteBuilder implements RouteBuilderInterface
         if ($isDynamic) {
             $parameters = $matches[1];
             /** @psalm-suppress PossiblyNullArgument */
-            $pattern = '/'.addcslashes($this->uri, '/.').'/';
+            $pattern = '/'.addcslashes($this->uri, '/.').'$/';
 
             foreach ($matches[0] as $replaced) {
                 $pattern = str_replace($replaced, '(.[aA-zZ0-9-_]+)', $pattern);
