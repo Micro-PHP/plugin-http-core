@@ -14,6 +14,7 @@ namespace Micro\Plugin\Http\Test\Unit\Business\Response;
 use Micro\Component\DependencyInjection\Autowire\AutowireHelperInterface;
 use Micro\Plugin\Http\Business\Response\Callback\ResponseCallback;
 use Micro\Plugin\Http\Business\Route\RouteInterface;
+use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,13 +23,115 @@ class ResponseCallbackTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testInvoke(mixed $callable)
+    public function testInvoke(
+        mixed $routeController,
+        string $routeName,
+        array $expectedAutoWireArguments,
+        array $autowireReturns
+    ) {
+        $route = $this->createMock(RouteInterface::class);
+        $route->expects($this->once())
+            ->method('getController')
+            ->willReturn($routeController);
+
+        $route->expects($this->any())
+            ->method('getName')
+            ->willReturn($routeName);
+
+        $autowireHelper = $this->createMock(AutowireHelperInterface::class);
+        $autowireHelper->expects($this->any())
+            ->method('autowire')
+            ->withConsecutive(...$expectedAutoWireArguments)
+            ->willReturnOnConsecutiveCalls(...$autowireReturns);
+
+        $responseCallback = new ResponseCallback(
+            $autowireHelper,
+            $route,
+        );
+
+        $this->assertInstanceOf(Response::class, $responseCallback());
+    }
+
+    public function dataProvider(): array
+    {
+        $anonymousFunction = function () { return new Response(); };
+        $callbackTestObj = new CallbackTest();
+        return [
+            [
+                'routeController' => $anonymousFunction,
+                'routeName' => 'does-not-matter',
+                'autoWireArguments' => [[$anonymousFunction]],
+                'autowireReturns' => [$anonymousFunction],
+            ],
+            [
+                'routeController' => CallbackTest::class,
+                'routeName' => '',
+                'autoWireArguments' => [[CallbackTest::class], [[$callbackTestObj, '']]],
+                'autowireReturns' => [
+                    fn () => $callbackTestObj,
+                    [$callbackTestObj, '__invoke'],
+                ],
+            ],
+            [
+                'routeController' => CallbackTest::class,
+                'routeName' => 'hello-with-response',
+                'autoWireArguments' => [[CallbackTest::class], [[$callbackTestObj, 'helloWithResponse']]],
+                'autowireReturns' => [
+                    fn () => $callbackTestObj,
+                    [$callbackTestObj, 'helloWithResponse'],
+                ],
+            ],
+            [
+                'routeController' => [CallbackTest::class, 'helloWithResponse'],
+                'routeName' => '',
+                'autoWireArguments' => [[CallbackTest::class], [[$callbackTestObj, 'helloWithResponse']]],
+                'autowireReturns' => [
+                    fn () => $callbackTestObj,
+                    [$callbackTestObj, 'helloWithResponse'],
+                ],
+            ],
+            [
+                'routeController' => CallbackTest::class.'::helloWithResponse',
+                'routeName' => '',
+                'autoWireArguments' => [[CallbackTest::class], [[$callbackTestObj, 'helloWithResponse']]],
+                'autowireReturns' => [
+                    fn () => $callbackTestObj,
+                    [$callbackTestObj, 'helloWithResponse'],
+                ],
+            ],
+            [
+                'routeController' => [$callbackTestObj, 'helloWithResponse'],
+                'routeName' => 'does-not-matter',
+                'autoWireArguments' => [[[$callbackTestObj, 'helloWithResponse']]],
+                'autowireReturn' => [
+                    [$callbackTestObj, 'helloWithResponse'],
+                ],
+            ],
+            [
+                'routeController' => $callbackTestObj,
+                'routeName' => '',
+                'autoWireArguments' => [[$callbackTestObj]],
+                'autowireReturn' => [$callbackTestObj],
+            ],
+            [
+                'routeController' => $callbackTestObj,
+                'routeName' => 'hello-with-response',
+                'autoWireArguments' => [[$callbackTestObj]],
+                'autowireReturn' => [$callbackTestObj],
+            ],
+        ];
+    }
+
+    public function testInvokeWithRouteInvalidConfigurationException(): void
     {
         $route = $this->createMock(RouteInterface::class);
-        $route
-            ->expects($this->once())
+        $route->expects($this->once())
             ->method('getController')
-            ->willReturn($callable);
+            ->willReturn([]);
+
+        $route->expects($this->any())
+            ->method('getName')
+            ->willReturn('route-name');
 
         $autowireHelper = $this->createMock(AutowireHelperInterface::class);
         $autowireHelper->expects($this->any())
@@ -40,27 +143,7 @@ class ResponseCallbackTest extends TestCase
             $route,
         );
 
-        $this->assertInstanceOf(Response::class, $responseCallback());
-    }
-
-    public function dataProvider()
-    {
-        return [
-            [
-                function () {},
-            ],
-            [
-                CallbackTest::class,
-            ],
-            [
-                CallbackTest::class, 'helloWithResponse',
-            ],
-            [
-                CallbackTest::class.'::helloWithResponse',
-            ],
-            [
-                new CallbackTest(), 'helloWithResponse',
-            ],
-        ];
+        $this->expectException(RouteInvalidConfigurationException::class);
+        $responseCallback();
     }
 }

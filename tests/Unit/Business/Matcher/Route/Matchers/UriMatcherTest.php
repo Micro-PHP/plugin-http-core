@@ -47,7 +47,7 @@ class UriMatcherTest extends TestCase
         $requestMock = $this->createMock(Request::class);
         $requestMock
             ->expects($this->once())
-            ->method('getRequestUri')
+            ->method('getPathInfo')
             ->willReturn($requestUri);
 
         $actual = $matcher->match(

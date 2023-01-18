@@ -16,16 +16,11 @@
             <directory>tests/Unit</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory>src/Exception</directory>
-                <file>src/HttpCorePlugin.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
     <coverage>
+        <exclude>
+            <directory>src/Exception</directory>
+            <file>src/HttpCorePlugin.php</file>
+        </exclude>
         <include>
             <directory suffix=".php">src</directory>
         </include>

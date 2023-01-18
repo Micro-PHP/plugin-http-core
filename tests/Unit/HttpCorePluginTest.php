@@ -53,7 +53,7 @@ class HttpCorePluginTest extends TestCase
             throw $exception;
         }
 
-        $this->assertEquals($response->getContent(), $parameter);
+        $this->assertEquals($parameter, $response->getContent());
     }
 
     public function dataProvider()

@@ -68,6 +68,6 @@ readonly class ResponseCallback implements ResponseCallbackInterface
 
     protected function snakeToCamel(string $str): string
     {
-        return lcfirst(str_replace(' ', '', ucwords(str_replace('_', ' ', $str))));
+        return lcfirst(str_replace(' ', '', ucwords(str_replace(['_', '-'], [' ', ' '], $str))));
     }
 }

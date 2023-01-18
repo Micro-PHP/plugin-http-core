@@ -11,6 +11,7 @@
 
 namespace Micro\Plugin\Http\Test\Unit\Business\Locator;
 
+use ArrayObject;
 use Micro\Framework\Kernel\KernelInterface;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactory;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
@@ -75,7 +76,7 @@ class RouteLocatorFactoryTest extends TestCase
             ->expects($this->once())
             ->method('plugins')
             ->with(HttpRouteLocatorPluginInterface::class)
-            ->willReturn([$stubLocator]);
+            ->willReturn(new \ArrayObject([$stubLocator]));
 
         return $stubKernel;
     }

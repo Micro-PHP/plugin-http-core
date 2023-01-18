@@ -20,6 +20,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CallbackTest
 {
+    public function __invoke(): Response
+    {
+        return new Response();
+    }
+
     public function helloWithResponse(): Response
     {
         return new Response();
