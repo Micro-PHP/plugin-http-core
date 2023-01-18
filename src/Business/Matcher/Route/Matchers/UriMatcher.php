@@ -27,13 +27,13 @@ class UriMatcher implements RouteMatcherInterface
      */
     public function match(RouteInterface $route, Request $request): bool
     {
-        $requestUri = $request->getRequestUri();
+        $pathInfo = $request->getPathInfo();
         $pattern = $route->getPattern();
         if (!$pattern) {
-            return $requestUri === $route->getUri();
+            return $pathInfo === $route->getUri();
         }
 
-        $matched = preg_match_all($pattern, $requestUri, $matches);
+        $matched = preg_match_all($pattern, $pathInfo, $matches);
 
         if (0 === $matched) {
             return false;
