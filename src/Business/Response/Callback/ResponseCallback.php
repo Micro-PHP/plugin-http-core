@@ -34,6 +34,8 @@ readonly class ResponseCallback implements ResponseCallbackInterface
     public function __invoke(): mixed
     {
         $controller = $this->route->getController();
+        $routeName = $this->route->getName() ?? $this->route->getUri();
+
         if (\is_callable($controller)) {
             $callback = $this->autowireHelper->autowire($controller);
 
@@ -48,16 +50,22 @@ readonly class ResponseCallback implements ResponseCallbackInterface
         }
 
         if (\is_array($controller)) {
+            $controller = array_filter($controller);
             if (!\count($controller)) {
-                throw new RouteInvalidConfigurationException($this->route->getName() ?? $this->route->getUri(), ['Controller is not defined.']);
+                throw new RouteInvalidConfigurationException($routeName, ['Controller is not defined.']);
             }
+
             $classController = $controller[0];
-            $classMethod = $controller[1] ?? $this->snakeToCamel($this->route->getName() ?? '');
+            $classMethod = !empty($controller[1]) ? $controller[1] : $this->snakeToCamel($this->route->getName() ?? '');
         }
 
         /* @psalm-suppress RedundantConditionGivenDocblockType */
         if (!\is_object($classController)) {
-            /** @psalm-suppress PossiblyNullArgument */
+            /**
+             * @psalm-suppress PossiblyNullArgument
+             *
+             * @phpstan-ignore-next-line
+             */
             $classController = $this->autowireHelper->autowire($classController)();
         }
 

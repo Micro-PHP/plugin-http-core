@@ -56,6 +56,7 @@ class ResponseCallbackTest extends TestCase
     {
         $anonymousFunction = function () { return new Response(); };
         $callbackTestObj = new CallbackTest();
+
         return [
             [
                 'routeController' => $anonymousFunction,

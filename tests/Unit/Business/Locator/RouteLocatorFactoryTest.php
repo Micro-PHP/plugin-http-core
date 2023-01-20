@@ -11,7 +11,6 @@
 
 namespace Micro\Plugin\Http\Test\Unit\Business\Locator;
 
-use ArrayObject;
 use Micro\Framework\Kernel\KernelInterface;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorFactory;
 use Micro\Plugin\Http\Business\Locator\RouteLocatorInterface;
