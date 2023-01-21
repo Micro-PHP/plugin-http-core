@@ -12,9 +12,9 @@
     "require": {
         "micro/autowire": "^1.6",
         "micro/kernel": "^1.6",
-        "micro/kernel-boot-configuration": "^1",
-        "micro/kernel-boot-dependency": "^1",
-        "micro/kernel-boot-plugin-depended": "^1",
+        "micro/kernel-boot-configuration": "^1.6",
+        "micro/kernel-boot-dependency": "^1.6",
+        "micro/kernel-boot-plugin-depended": "^1.6",
         "micro/plugin-locator": "^1",
         "symfony/http-foundation": "^6.2"
     },
