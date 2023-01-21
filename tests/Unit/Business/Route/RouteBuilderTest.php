@@ -74,12 +74,30 @@ class RouteBuilderTest extends TestCase
     public function dataProvider()
     {
         return [
-            ['test', function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null],
-            ['test', function () {}, '/{test}-{date}.{_format}', '/\/(.[aA-zZ0-9-_]+)-(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', ['POST'], null],
-            [null, function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)/', null, null],
+            ['test', function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)$/', ['POST'], null],
+            ['test', function () {}, '/{test}-{date}.{_format}', '/\/(.[aA-zZ0-9-_]+)-(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)$/', ['POST'], null],
+            [null, function () {}, '/{test}.{_format}', '/\/(.[aA-zZ0-9-_]+)\.(.[aA-zZ0-9-_]+)$/', null, null],
             ['test', null, '/{test}.{_format}', null, null, RouteInvalidConfigurationException::class],
             ['test', function () {}, '/test', null, null, null],
             ['test', null, null, null, null, RouteInvalidConfigurationException::class],
         ];
+    }
+
+    public function testClear()
+    {
+        $builder = new RouteBuilder();
+
+        $routeA = $builder->setName('test')
+            ->setController(function () {})
+            ->setUri('/{test}.{_format}')
+            ->setMethods(['POST'])
+            ->build();
+
+        $routeB = $builder->setController(function () {})
+            ->setUri('/{test}.{_format}')
+            ->setMethods(['POST'])
+            ->build();
+
+        $this->assertNotEquals($routeA->getName(), $routeB->getName());
     }
 }
