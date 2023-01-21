@@ -75,7 +75,7 @@ class RouteLocatorFactoryTest extends TestCase
             ->expects($this->once())
             ->method('plugins')
             ->with(HttpRouteLocatorPluginInterface::class)
-            ->willReturn([$stubLocator]);
+            ->willReturn(new \ArrayObject([$stubLocator]));
 
         return $stubKernel;
     }

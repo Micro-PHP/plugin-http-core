@@ -152,7 +152,7 @@ class RouteBuilder implements RouteBuilderInterface
         $pattern = null;
         $parameters = null;
         /** @psalm-suppress PossiblyNullArgument */
-        $isDynamic = preg_match_all('/\{\s*([^}\s]*)\s*\}/', $this->uri, $matches);
+        $isDynamic = preg_match_all('/\{\s*([^}\s]*)\s*}/', $this->uri, $matches);
         if ($isDynamic) {
             $parameters = $matches[1];
             /** @psalm-suppress PossiblyNullArgument */
@@ -185,5 +185,6 @@ class RouteBuilder implements RouteBuilderInterface
         $this->uri = null;
         $this->action = null;
         $this->methods = $this->methodsByDefault;
+        $this->name = null;
     }
 }

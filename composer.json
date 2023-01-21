@@ -3,7 +3,6 @@
     "description": "Micro Framework: Lightweight HTTP router",
     "license": "MIT",
     "type": "micro-plugin",
-    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Stanislau Komar",
@@ -13,21 +12,22 @@
     "require": {
         "micro/autowire": "^1.6",
         "micro/kernel": "^1.6",
-        "micro/kernel-boot-configuration": "^1",
-        "micro/kernel-boot-dependency": "^1",
-        "micro/kernel-boot-plugin-depended": "^1",
-        "micro/plugin-locator": "^1",
+        "micro/kernel-boot-configuration": "^1.6",
+        "micro/kernel-boot-dependency": "^1.6",
+        "micro/kernel-boot-plugin-depended": "^1.6",
+        "micro/plugin-locator": "^1.6",
         "symfony/http-foundation": "^6.2"
     },
     "require-dev": {
-        "micro/kernel-app": "^1.6",
         "ergebnis/composer-normalize": "^2.29",
         "friendsofphp/php-cs-fixer": "^3.13",
+        "micro/kernel-app": "^1.6",
         "phpstan/phpstan": "^1.9",
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^5.2"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Micro\\Plugin\\Http\\": "src/"
