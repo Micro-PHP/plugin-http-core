@@ -30,10 +30,10 @@ class RouteInvalidConfigurationException extends RouteConfigurationException
     {
         $message = <<<EOF
             Invalid route "%s" configuration:
-                * %s
-        EOF;
+             * %s
+            EOF;
 
-        $message = sprintf($message, $routeName, implode("\r\n        * ", $messages));
+        $message = sprintf($message, $routeName, implode("\r\n * ", $messages));
 
         $this->messages = $messages;
         parent::__construct(
