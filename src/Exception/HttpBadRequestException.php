@@ -18,10 +18,7 @@ namespace Micro\Plugin\Http\Exception;
  */
 class HttpBadRequestException extends HttpException
 {
-    /**
-     * @param \Throwable|null $previous
-     */
-    public function __construct(string $message = 'Bad Request.', \Throwable|null $previous = null)
+    public function __construct(string $message = 'Bad Request.', \Throwable $previous = null)
     {
         parent::__construct($message, 400, $previous);
     }

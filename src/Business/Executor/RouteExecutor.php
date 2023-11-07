@@ -35,13 +35,10 @@ readonly class RouteExecutor implements RouteExecutorInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function execute(Request $request, bool $flush = true): Response
     {
         $route = $this->urlMatcher->match($request);
-        $this->containerRegistry->register(Request::class, fn (): Request => $request);
+        $this->containerRegistry->register(Request::class, fn (): Request => $request, true);
         $callback = $this->responseCallbackFactory->create($route);
 
         try {

@@ -30,9 +30,6 @@ readonly class UrlMatcher implements UrlMatcherInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function match(Request $request): RouteInterface
     {
         foreach ($this->routeCollection->iterateRoutes() as $route) {

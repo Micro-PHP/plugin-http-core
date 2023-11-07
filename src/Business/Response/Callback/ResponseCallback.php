@@ -28,9 +28,6 @@ readonly class ResponseCallback implements ResponseCallbackInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function __invoke(): mixed
     {
         $controller = $this->route->getController();

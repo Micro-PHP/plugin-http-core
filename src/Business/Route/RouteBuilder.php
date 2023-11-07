@@ -48,9 +48,6 @@ class RouteBuilder implements RouteBuilderInterface
         $this->methods = $this->methodsByDefault;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setName(string $name): self
     {
         $this->name = $name;
@@ -58,9 +55,6 @@ class RouteBuilder implements RouteBuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addMethod(string $method): self
     {
         if (!\in_array($method, $this->methods)) {
@@ -70,9 +64,6 @@ class RouteBuilder implements RouteBuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setMethods(array $methods): self
     {
         $this->methods = [];
@@ -84,9 +75,6 @@ class RouteBuilder implements RouteBuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setController(string|array|\Closure $action): self
     {
         $this->action = $action;
@@ -94,9 +82,6 @@ class RouteBuilder implements RouteBuilderInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setUri(string $uri): self
     {
         $this->uri = $uri;
@@ -128,10 +113,10 @@ class RouteBuilder implements RouteBuilderInterface
         }
 
         if (
-            $this->action &&
-            (
-                !\is_callable($this->action) &&
-                (\is_string($this->action) && (class_exists($this->action) && !$this->name))
+            $this->action
+            && (
+                !\is_callable($this->action)
+                && (\is_string($this->action) && (class_exists($this->action) && !$this->name))
             )
         ) {
             $exceptions[] = 'The route action should be callable. Examples: `[object, "method|<route_name>"], [Classname, "metnod|<routeName>"], Classname::method, Classname, function() {}` Current value: '.$this->action;
