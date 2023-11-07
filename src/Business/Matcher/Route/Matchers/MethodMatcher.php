@@ -22,9 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class MethodMatcher implements RouteMatcherInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function match(RouteInterface $route, Request $request): bool
     {
         return \in_array(mb_strtoupper($request->getMethod()), $route->getMethods());

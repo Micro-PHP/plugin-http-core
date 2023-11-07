@@ -18,9 +18,6 @@ namespace Micro\Plugin\Http\Business\Route;
  */
 readonly class RouteBuilderFactory implements RouteBuilderFactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function create(): RouteBuilderInterface
     {
         return new RouteBuilder();

@@ -48,9 +48,6 @@ class RouteCollection implements RouteCollectionInterface
         $this->setRoutes($routes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function setRoutes(iterable $routes): self
     {
         $this->routes = [];
@@ -64,9 +61,6 @@ class RouteCollection implements RouteCollectionInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function addRoute(RouteInterface $route): self
     {
         $routeName = $route->getName();
@@ -90,9 +84,6 @@ class RouteCollection implements RouteCollectionInterface
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRouteByName(string $name): RouteInterface
     {
         if (!\array_key_exists($name, $this->routes)) {
@@ -102,25 +93,16 @@ class RouteCollection implements RouteCollectionInterface
         return $this->routes[$name];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRoutes(): iterable
     {
         return array_values($this->routes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRoutesNames(): array
     {
         return array_keys($this->routes);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function iterateRoutes(): iterable
     {
         foreach ($this->routesNamesStatic as $routeName) {

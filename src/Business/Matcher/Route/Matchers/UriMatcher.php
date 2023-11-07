@@ -22,9 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UriMatcher implements RouteMatcherInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function match(RouteInterface $route, Request $request): bool
     {
         $pathInfo = $request->getPathInfo();

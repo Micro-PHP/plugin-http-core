@@ -28,9 +28,6 @@ readonly class RouteLocatorFactory implements RouteLocatorFactoryInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(): RouteLocatorInterface
     {
         $providerType = mb_strtolower($this->configuration->getRouteLocatorType());

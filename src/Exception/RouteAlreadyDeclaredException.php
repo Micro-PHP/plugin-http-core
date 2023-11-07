@@ -18,7 +18,7 @@ namespace Micro\Plugin\Http\Exception;
  */
 class RouteAlreadyDeclaredException extends RouteConfigurationException
 {
-    public function __construct(string $routeName, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(string $routeName, int $code = 0, \Throwable $previous = null)
     {
         parent::__construct(sprintf('The route "%s" already defined and can not be redeclare.', $routeName), $code, $previous);
     }

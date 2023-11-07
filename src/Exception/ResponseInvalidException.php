@@ -20,7 +20,7 @@ class ResponseInvalidException extends \RuntimeException
 {
     private mixed $responseData;
 
-    public function __construct(mixed $responseData, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(mixed $responseData, int $code = 0, \Throwable $previous = null)
     {
         parent::__construct('Invalid response object type.', $code, $previous);
 

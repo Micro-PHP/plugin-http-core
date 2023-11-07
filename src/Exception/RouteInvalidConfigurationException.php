@@ -26,7 +26,7 @@ class RouteInvalidConfigurationException extends RouteConfigurationException
     /**
      * @param string[] $messages
      */
-    public function __construct(string $routeName, array $messages, int $code = 0, ?\Throwable $previous = null)
+    public function __construct(string $routeName, array $messages, int $code = 0, \Throwable $previous = null)
     {
         $message = <<<EOF
             Invalid route "%s" configuration:

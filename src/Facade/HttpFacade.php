@@ -37,17 +37,11 @@ readonly class HttpFacade implements HttpFacadeInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createRouteBuilder(): RouteBuilderInterface
     {
         return $this->routeBuilderFactory->create();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDeclaredRoutesNames(): iterable
     {
         return $this->routeCollectionFactory
@@ -55,9 +49,6 @@ readonly class HttpFacade implements HttpFacadeInterface
             ->getRoutesNames();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function match(Request $request): RouteInterface
     {
         return $this->urlMatcherFactory
@@ -65,9 +56,6 @@ readonly class HttpFacade implements HttpFacadeInterface
             ->match($request);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function execute(Request $request, bool $flush = true): Response
     {
         return $this->routeExecutorFactory
@@ -75,9 +63,6 @@ readonly class HttpFacade implements HttpFacadeInterface
             ->execute($request, $flush);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generateUrlByRouteName(string $routeName, array|null $parameters = []): string
     {
         return $this->urlGeneratorFactory

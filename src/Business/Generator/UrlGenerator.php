@@ -24,9 +24,6 @@ readonly class UrlGenerator implements UrlGeneratorInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function generateUrlByRouteName(string $routeName, array|null $parameters = []): string
     {
         $route = $this->routeCollection->getRouteByName($routeName);
