@@ -27,6 +27,9 @@
         "phpunit/phpunit": "^9.5",
         "vimeo/psalm": "^5.2"
     },
+    "conflict": {
+        "micro/plugin-http": "*"
+    },
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
