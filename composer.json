@@ -50,7 +50,7 @@
         "php-cs-try": "PHP_CS_FIXER_IGNORE_ENV=1 ./vendor/bin/php-cs-fixer fix --verbose --dry-run --using-cache=no",
         "phpstan": "./vendor/bin/phpstan analyze --no-progress",
         "phpunit": "./vendor/bin/phpunit",
-        "psalm": "./vendor/bin/psalm --no-progress --show-info=true",
+        "psalm": "./vendor/bin/psalm --no-progress --show-info=true --shepherd",
         "statics": [
             "@phpstan",
             "@psalm",
