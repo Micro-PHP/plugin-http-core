@@ -16,7 +16,7 @@
         "micro/kernel-boot-dependency": "^1.6",
         "micro/kernel-boot-plugin-depended": "^1.6",
         "micro/plugin-locator": "^1.6",
-        "symfony/http-foundation": "^6.2"
+        "symfony/http-foundation": "^6.2|^7"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.29",
