@@ -40,7 +40,7 @@ readonly class UrlGenerator implements UrlGeneratorInterface
         }
 
         foreach ($parameters as $key => $value) {
-            $uri = str_replace(sprintf('{%s}', $key), $value, $uri);
+            $uri = str_replace(sprintf('{%s}', $key), (string) $value, $uri);
         }
 
         return $uri;
