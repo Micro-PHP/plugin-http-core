@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Micro\Plugin\Http\Business\Route;
 
 use Micro\Plugin\Http\Exception\RouteInvalidConfigurationException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @author Stanislau Komar <kost@micro-php.net>
@@ -39,7 +40,11 @@ class RouteBuilder implements RouteBuilderInterface
      */
     public function __construct(
         private readonly array $methodsByDefault = [
-            'PUT', 'POST', 'PATCH', 'GET', 'DELETE',
+            Request::METHOD_GET,
+            Request::METHOD_POST,
+            Request::METHOD_PUT,
+            Request::METHOD_PATCH,
+            Request::METHOD_DELETE,
         ],
     ) {
         $this->name = null;
@@ -99,17 +104,15 @@ class RouteBuilder implements RouteBuilderInterface
         $exceptions = [];
 
         if (!$this->uri) {
-            $this->uri = '';
-
             $exceptions[] = 'Uri can not be empty.';
         }
 
-        if ($this->name && !preg_match('/^(.[aA-zZ_])/', $this->name)) {
-            $exceptions[] = 'The route name must match "aA-zZ0-9_".';
+        if ($this->name && !preg_match('/^([a-zA-Z_][a-zA-Z0-9_]*)$/', $this->name)) {
+            $exceptions[] = 'The route name must match "[a-zA-Z][a-zA-Z0-9_]*".';
         }
 
         if (!$this->action) {
-            $exceptions[] = 'The route action can not be empty and should be callable.';
+            $exceptions[] = 'The route action can not be empty.';
         }
 
         if (
@@ -123,7 +126,7 @@ class RouteBuilder implements RouteBuilderInterface
         }
 
         if (!\count($this->methods)) {
-            $exceptions[] = 'The route should be contain one or more methods from %s::class.';
+            $exceptions[] = 'The route should support at least one HTTP method.';
         }
 
         if (\count($exceptions)) {
@@ -144,7 +147,7 @@ class RouteBuilder implements RouteBuilderInterface
             $pattern = '/'.addcslashes($this->uri, '/.').'$/';
 
             foreach ($matches[0] as $replaced) {
-                $pattern = str_replace($replaced, '(.[aA-zZ0-9-_]+)', $pattern);
+                $pattern = str_replace($replaced, '([a-zA-Z_][a-zA-Z0-9_]*)', $pattern);
             }
         }
         /**
